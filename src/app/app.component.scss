@@ -1,0 +1,10 @@
+mat-sidenav-container {
+    height: calc(100% - 64px);
+}
+
+mat-toolbar {
+    padding: 0 30px;
+    * {
+        padding: 0 !important;
+    }
+}

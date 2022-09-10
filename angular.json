@@ -28,7 +28,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/primeflex-theme-variables.css",
+              "node_modules/primeflex/primeflex.css"
             ],
             "scripts": []
           },
