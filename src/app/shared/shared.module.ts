@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 const materialModule = [
   MatSidenavModule,
@@ -17,9 +18,11 @@ const materialModule = [
   MatInputModule,
 ];
 
+const libModule = [CarouselModule];
+
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ...materialModule],
-  exports: [...materialModule],
+  imports: [CommonModule, ...materialModule, ...libModule],
+  exports: [...materialModule, ...libModule],
 })
 export class SharedModule {}
