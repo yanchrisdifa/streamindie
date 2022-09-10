@@ -52,18 +52,17 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over" class="bg-second-color">
     <mat-nav-list class="text-white">
-      <a>
-        <mat-icon>home</mat-icon>
-        <p class="m-0 text-base">Home</p>
-      </a>
-      <a>
-        <mat-icon>library_music</mat-icon>
-        <p class="m-0 text-base">Library</p>
-      </a>
-      <a>
-        <mat-icon>stars</mat-icon>
-        <p class="m-0 text-base">Popular</p>
-      </a>
+      <ng-container *ngFor="let menu of menuList">
+        <a
+          [routerLink]="menu?.state"
+          routerLinkActive="text-third-color"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="sidenav.close()"
+        >
+          <mat-icon>{{ menu?.icon }}</mat-icon>
+          <p class="m-0 text-base">{{ menu?.name }}</p>
+        </a>
+      </ng-container>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
