@@ -1,0 +1,22 @@
+$first-color:#000000;
+$second-color:#222222;
+$third-color:#33f58e;
+
+.bg-first-color {
+  background-color: $first-color !important;
+}
+
+.bg-second-color {
+  background-color: $second-color !important;
+}
+
+.text-third-color {
+  color: $third-color !important;
+}
+.bg-third-color {
+  background-color: $third-color !important;
+}
+
+.text-white {
+  color: #fff;
+}

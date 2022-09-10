@@ -1,0 +1,72 @@
+<mat-toolbar class="bg-second-color">
+  <div class="grid col-12 align-items-center h-full text-white m-0">
+    <div class="col-4 align-items-center grid m-0">
+      <button
+        mat-icon-button
+        (click)="sidenav.toggle()"
+        class="mr-4"
+        style="width: fit-content !important"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 class="text-2xl" style="letter-spacing: 1px !important">
+        Stream<span class="text-third-color">Indie</span>
+      </h1>
+      <mat-icon class="text-3xl">music_note</mat-icon>
+    </div>
+    <div class="col-4 m-0 p-0">
+      <mat-form-field
+        class="w-full text-base"
+        appearance="legacy"
+        floatLabel="never"
+        style="transform: translateY(5px); letter-spacing: 1px"
+      >
+        <mat-label>Search Your Music</mat-label>
+        <input matInput />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-4 grid m-0 p-0 justify-content-end gap-3">
+      <button
+        mat-flat-button
+        style="padding: 0 30px !important; letter-spacing: 1px"
+        class="bg-third-color border-round-3xl"
+      >
+        Sign Up
+      </button>
+      <button
+        mat-flat-button
+        style="
+          background-color: transparent !important;
+          border: 3px solid #33f58e !important;
+          padding: 0 30px !important;
+          letter-spacing: 1px;
+        "
+        class="text-white border-round-3xl"
+      >
+        Sign In
+      </button>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" class="bg-second-color">
+    <mat-nav-list class="text-white">
+      <a>
+        <mat-icon>home</mat-icon>
+        <p class="m-0 text-base">Home</p>
+      </a>
+      <a>
+        <mat-icon>library_music</mat-icon>
+        <p class="m-0 text-base">Library</p>
+      </a>
+      <a>
+        <mat-icon>stars</mat-icon>
+        <p class="m-0 text-base">Popular</p>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

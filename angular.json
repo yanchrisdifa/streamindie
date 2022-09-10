@@ -29,7 +29,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/primeflex-theme-variables.css",
+              "src/custom-theming.scss",
               "node_modules/primeflex/primeflex.css"
             ],
             "scripts": []

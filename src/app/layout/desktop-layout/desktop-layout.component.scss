@@ -1,0 +1,27 @@
+mat-toolbar {
+    padding: 0 30px;
+    height: 70px;
+    * {
+        padding: 0 !important;
+    }
+}
+
+mat-sidenav-container {
+    height: calc(100% - 70px);
+    mat-sidenav {
+        mat-nav-list {
+            padding: 20px 70px 20px 30px !important;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            a {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                p {
+                    letter-spacing: 1px;
+                }
+            }
+        }
+    }
+}
