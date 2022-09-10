@@ -1,13 +1,13 @@
 mat-toolbar {
     padding: 0 30px;
-    height: 70px;
+    height: 80px;
     * {
         padding: 0 !important;
     }
 }
 
 mat-sidenav-container {
-    height: calc(100% - 70px);
+    height: calc(100% - 80px);
     mat-sidenav {
         mat-nav-list {
             padding: 20px 70px 20px 30px !important;
