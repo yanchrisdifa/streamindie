@@ -1,4 +1,55 @@
 <div
-  class="container w-full h-full bg-first-color text-white p-5"
+  class="w-full bg-first-color text-white p-4"
   style="box-sizing: border-box !important"
-></div>
+>
+  <div class="content-container grid m-0 p-0" style="gap: 2rem !important">
+    <div class="banner-container grid col-12 m-0 p-0" style="gap: 1rem">
+      <div class="image-container grid col m-0 p-0 justify-content-end">
+        <img src="../../assets/images/banner.png" alt="" />
+      </div>
+      <div
+        class="text-container col m-0 p-0 justify-content-center flex-column"
+        style="display: flex !important; letter-spacing: 1px !important"
+      >
+        <h1 style="width: 90%; letter-spacing: 1px !important">
+          Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit, amet
+          consectetur adipisicing elit. Optio, repellat?
+        </h1>
+        <p style="width: 90%; line-height: 1.5rem">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe
+          voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor
+          reiciendis possimus magni nisi mollitia quos temporibus laborum vero
+          omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo
+          fuga magni fugiat architecto sunt libero quis optio in minus, tenetur
+          temporibus error voluptates debitis.
+        </p>
+      </div>
+    </div>
+    <div class="popular-container col-12">
+      <swiper
+        #swiper
+        [slidesPerView]="3"
+        [spaceBetween]="50"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange()"
+        [navigation]="true"
+        [pagination]="{ clickable: true }"
+        [autoplay]="{ delay: 3000 }"
+      >
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+      </swiper>
+    </div>
+  </div>
+</div>

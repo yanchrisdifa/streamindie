@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
+import { SwiperModule } from 'swiper/angular';
+
 const materialModules = [
   MatSidenavModule,
   MatListModule,
@@ -17,9 +19,11 @@ const materialModules = [
   MatInputModule,
 ];
 
+const libModule = [SwiperModule];
+
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ...materialModules],
-  exports: [...materialModules],
+  imports: [CommonModule, ...libModule, ...materialModules],
+  exports: [...libModule, ...materialModules],
 })
 export class SharedModule {}
