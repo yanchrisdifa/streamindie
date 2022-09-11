@@ -42,3 +42,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 ::-webkit-scrollbar {
   display: none;
 }
+
+.custom-thumb-scrollbar {
+  background-color: #333333 !important;
+}
