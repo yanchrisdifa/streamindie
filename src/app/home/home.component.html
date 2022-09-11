@@ -2,40 +2,64 @@
   class="w-full bg-first-color text-white p-4"
   style="box-sizing: border-box !important"
 >
-  <div class="content-container grid m-0 p-0" style="gap: 2rem !important">
-    <div class="banner-container grid col-12 m-0 p-0" style="gap: 1rem">
-      <div class="image-container grid col m-0 p-0 justify-content-end">
-        <img src="../../assets/images/banner.png" alt="" />
-      </div>
-      <div
-        class="text-container col m-0 p-0 justify-content-center flex-column"
-        style="display: flex !important; letter-spacing: 1px !important"
+  <div class="content-container grid m-0 p-0" style="gap: 4rem !important">
+    <div class="banner-container col-12 m-0 p-0">
+      <swiper
+        [slidesPerView]="1"
+        [spaceBetween]="50"
+        [navigation]="true"
+        [pagination]="{ clickable: true }"
+        [autoplay]="{ delay: 5000 }"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange()"
+        [loop]="true"
       >
-        <h1 style="width: 90%; letter-spacing: 1px !important">
-          Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit. Optio, repellat?
-        </h1>
-        <p style="width: 90%; line-height: 1.5rem">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe
-          voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor
-          reiciendis possimus magni nisi mollitia quos temporibus laborum vero
-          omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo
-          fuga magni fugiat architecto sunt libero quis optio in minus, tenetur
-          temporibus error voluptates debitis.
-        </p>
-      </div>
+        <ng-container *ngFor="let data of bannerData; let dataIndex = index">
+          <ng-template swiperSlide>
+            <div
+              class="grid col-12 m-0 p-0"
+              style="gap: 1rem"
+              [ngClass]="{ 'flex-row-reverse': dataIndex % 2 === 0 }"
+            >
+              <div
+                class="image-container grid col m-0 p-0"
+                [ngClass]="{ 'justify-content-end': dataIndex % 2 !== 0 }"
+              >
+                <img [src]="data?.image" alt="" />
+              </div>
+              <div
+                class="text-container col m-0 p-0 justify-content-center flex-column"
+                style="display: flex !important; letter-spacing: 1px !important"
+                [ngClass]="{ 'align-items-end': dataIndex % 2 === 0 }"
+              >
+                <h1
+                  style="
+                    width: 90%;
+                    letter-spacing: 1px !important;
+                    line-height: 2.5rem;
+                  "
+                >
+                  {{ data?.title }}
+                </h1>
+                <p style="width: 90%; line-height: 1.8rem">
+                  {{ data?.text }}
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </swiper>
     </div>
-    <div class="popular-container col-12">
+    <div class="popular-container col-12 m-0 p-0">
       <swiper
         #swiper
         [slidesPerView]="3"
         [spaceBetween]="50"
         (swiper)="onSwiper($event)"
         (slideChange)="onSlideChange()"
-        [navigation]="true"
         [pagination]="{ clickable: true }"
         [autoplay]="{ delay: 3000 }"
+        [loop]="true"
       >
         <ng-template swiperSlide>
           <div class="col-12 bg-third-color card-container"></div>
@@ -50,6 +74,37 @@
           <div class="col-12 bg-third-color card-container"></div>
         </ng-template>
       </swiper>
+      <h2 class="text-center mt-3" style="letter-spacing: 3px">POPULAR</h2>
+    </div>
+    <div class="genre-container col-12 m-0 p-0">
+      <swiper
+        #swiper
+        [slidesPerView]="5"
+        [spaceBetween]="50"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange()"
+        [pagination]="{ clickable: true }"
+      >
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-third-color card-container"></div>
+        </ng-template>
+      </swiper>
+      <h2 class="text-center mt-3" style="letter-spacing: 3px">GENRES</h2>
     </div>
   </div>
 </div>
