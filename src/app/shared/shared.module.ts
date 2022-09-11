@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 import { SwiperModule } from 'swiper/angular';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 const materialModules = [
   MatSidenavModule,
@@ -19,7 +20,7 @@ const materialModules = [
   MatInputModule,
 ];
 
-const libModule = [SwiperModule];
+const libModule = [SwiperModule, NgScrollbarModule];
 
 @NgModule({
   declarations: [],

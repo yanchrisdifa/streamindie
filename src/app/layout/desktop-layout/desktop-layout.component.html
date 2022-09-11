@@ -66,14 +66,16 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <router-outlet></router-outlet>
-    <div
-      class="footer-container w-full bg-second-color text-white grid justify-content-center m-0 p-4"
-      style="box-sizing: border-box !important"
-    >
-      <p class="m-0 text-base" style="letter-spacing: 2px">
-        Copyright &copy; 2020 StreamIndie
-      </p>
-    </div>
+    <ng-scrollbar>
+      <router-outlet></router-outlet>
+      <div
+        class="footer-container w-full bg-second-color text-white grid justify-content-center m-0 p-4"
+        style="box-sizing: border-box !important"
+      >
+        <p class="m-0 text-base" style="letter-spacing: 2px">
+          Copyright &copy; 2020 StreamIndie
+        </p>
+      </div>
+    </ng-scrollbar>
   </mat-sidenav-content>
 </mat-sidenav-container>
