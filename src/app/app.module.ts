@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { RoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
+import { MatIconRegistry } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,4 +20,25 @@ import { LayoutModule } from './layout/layout.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'instagram',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/icons8-instagram.svg'
+      )
+    );
+    iconRegistry.addSvgIcon(
+      'twitter',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/icons8-twitter.svg'
+      )
+    );
+    iconRegistry.addSvgIcon(
+      'youtube',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/icons8-youtube.svg'
+      )
+    );
+  }
+}

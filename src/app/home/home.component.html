@@ -1,48 +1,77 @@
 <div
-  class="w-full bg-first-color text-white p-4"
+  class="w-full bg-first-color text-white p-6"
   style="box-sizing: border-box !important"
 >
-  <div class="content-container grid m-0 p-0" style="gap: 4rem !important">
-    <div class="banner-container col-12 m-0 p-0">
+  <div
+    class="content-container flex flex-column p-0 align-items-center"
+    style="gap: 4rem !important"
+  >
+    <div
+      class="banner-container col-12 m-auto p-0"
+      style="max-width: 1270px; margin: 30px 0 !important"
+    >
       <swiper
         [slidesPerView]="1"
         [spaceBetween]="50"
-        [navigation]="true"
-        [pagination]="{ clickable: true }"
-        [autoplay]="{ delay: 5000 }"
         (swiper)="onSwiper($event)"
         (slideChange)="onSlideChange()"
         [loop]="true"
+        [autoplay]="{ delay: 5000 }"
       >
         <ng-container *ngFor="let data of bannerData; let dataIndex = index">
           <ng-template swiperSlide>
             <div
-              class="grid col-12 m-0 p-0"
+              class="flex col-12 m-0 p-0 justify-content-evenly"
               style="gap: 1rem"
               [ngClass]="{ 'flex-row-reverse': dataIndex % 2 === 0 }"
             >
               <div
-                class="image-container grid col m-0 p-0"
-                [ngClass]="{ 'justify-content-end': dataIndex % 2 !== 0 }"
+                class="image-container m-0 p-0"
+                [ngClass]="{ 'justify-content-end': dataIndex % 2 === 0 }"
               >
-                <img [src]="data?.image" alt="" />
+                <img
+                  [src]="data?.image"
+                  alt=""
+                  style="max-width: 600px; max-height: 500px"
+                />
               </div>
               <div
-                class="text-container col m-0 p-0 justify-content-center flex-column"
-                style="display: flex !important; letter-spacing: 1px !important"
-                [ngClass]="{ 'align-items-end': dataIndex % 2 === 0 }"
+                class="text-container m-0 p-0 justify-content-center flex-column"
+                style="
+                  display: flex !important;
+                  letter-spacing: 1px !important;
+                  width: 50%;
+                "
+                [ngClass]="{ 'align-items-end': dataIndex % 2 !== 0 }"
               >
                 <h1
                   style="
                     width: 90%;
-                    letter-spacing: 1px !important;
-                    line-height: 2.5rem;
+                    letter-spacing: 2px !important;
+                    line-height: 3.2rem;
+                    font-size: 2.3rem;
+                    font-weight: bold;
                   "
                 >
                   {{ data?.title }}
                 </h1>
-                <p style="width: 90%; line-height: 1.8rem">
+                <p
+                  style="
+                    width: 90%;
+                    line-height: 1.8rem;
+                    color: #555;
+                    font-size: 0.85rem;
+                  "
+                >
                   {{ data?.text }}
+                </p>
+                <p style="width: 90%; line-height: 1.8rem; font-size: 1rem">
+                  <a
+                    href="#"
+                    class="text-third-color flex gap-2"
+                    style="letter-spacing: 1px"
+                    >Explore Now! <mat-icon>arrow_right_alt</mat-icon></a
+                  >
                 </p>
               </div>
             </div>
@@ -50,7 +79,10 @@
         </ng-container>
       </swiper>
     </div>
-    <div class="popular-container col-12 m-0 p-0">
+    <div
+      class="popular-container col-12 m-0 p-0 m-auto"
+      style="max-width: 1270px"
+    >
       <swiper
         #swiper
         [slidesPerView]="3"
@@ -62,21 +94,31 @@
         [loop]="true"
       >
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="bg-second-color card-container"></div>
         </ng-template>
       </swiper>
-      <h2 class="text-center mt-3" style="letter-spacing: 3px">POPULAR</h2>
+      <div
+        class="description-container w-full flex justify-content-between mt-3"
+      >
+        <h2 style="letter-spacing: 3px !important">POPULAR</h2>
+        <a
+          href="#"
+          class="text-third-color flex align-items-center gap-2"
+          style="letter-spacing: 1px; font-size: 1rem !important"
+          >See More <mat-icon>arrow_right_alt</mat-icon></a
+        >
+      </div>
     </div>
-    <div class="genre-container col-12 m-0 p-0">
+    <div class="genre-container col-12 m-auto p-0" style="max-width: 1270px">
       <swiper
         #swiper
         [slidesPerView]="5"
@@ -86,25 +128,78 @@
         [pagination]="{ clickable: true }"
       >
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
         <ng-template swiperSlide>
-          <div class="col-12 bg-third-color card-container"></div>
+          <div class="col-12 bg-second-color card-container"></div>
         </ng-template>
       </swiper>
-      <h2 class="text-center mt-3" style="letter-spacing: 3px">GENRES</h2>
+      <div
+        class="description-container w-full flex justify-content-between mt-3"
+      >
+        <h2 style="letter-spacing: 3px !important">GENRES</h2>
+        <a
+          href="#"
+          class="text-third-color flex align-items-center gap-2"
+          style="letter-spacing: 1px; font-size: 1rem !important"
+          >See More <mat-icon>arrow_right_alt</mat-icon></a
+        >
+      </div>
+    </div>
+    <div
+      class="new-container col-12 p-0 m-auto"
+      style="max-width: 1270px; margin-bottom: 50px !important"
+    >
+      <swiper
+        #swiper
+        [slidesPerView]="5"
+        [spaceBetween]="50"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange()"
+        [pagination]="{ clickable: true }"
+      >
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+        <ng-template swiperSlide>
+          <div class="col-12 bg-second-color card-container"></div>
+        </ng-template>
+      </swiper>
+      <div
+        class="description-container w-full flex justify-content-between mt-3"
+      >
+        <h2 style="letter-spacing: 3px !important">NEW ALBUMS / SINGLES</h2>
+        <a
+          href="#"
+          class="text-third-color flex align-items-center gap-2"
+          style="letter-spacing: 1px; font-size: 1rem !important"
+          >See More <mat-icon>arrow_right_alt</mat-icon></a
+        >
+      </div>
     </div>
   </div>
 </div>

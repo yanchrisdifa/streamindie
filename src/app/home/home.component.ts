@@ -6,9 +6,17 @@ import SwiperCore, {
   A11y,
   Autoplay,
   SwiperOptions,
+  EffectCoverflow,
 } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Autoplay]);
+SwiperCore.use([
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+  EffectCoverflow,
+]);
 
 @Component({
   selector: 'app-home',
@@ -20,15 +28,13 @@ export class HomeComponent implements OnInit {
 
   bannerData = [
     {
-      image: '../../assets/images/banner-1.png',
-      title:
-        'Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio, repellat?',
+      image: '../../assets/images/banner-1.jpg',
+      title: 'Niggaruto Was here to playing some music motherfucker',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
     {
-      image: '../../assets/images/banner-1.png',
-      title:
-        'Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio, repellat?',
+      image: '../../assets/images/banner-1.jpg',
+      title: 'Lorem ipsum dolor sit amet consectetur. Lorem',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
   ];
@@ -40,7 +46,5 @@ export class HomeComponent implements OnInit {
   onSwiper(swiper) {
     console.log(swiper);
   }
-  onSlideChange() {
-    console.log('slide change');
-  }
+  onSlideChange() {}
 }

@@ -9,20 +9,21 @@
       >
         <mat-icon>menu</mat-icon>
       </button>
-      <h1 class="text-2xl" style="letter-spacing: 1px !important">
+      <h1
+        class="text-5xl"
+        style="letter-spacing: 2px !important; font-family: stereofidelic"
+      >
         Stream<span class="text-third-color">Indie</span>
       </h1>
-      <mat-icon class="text-3xl">music_note</mat-icon>
     </div>
     <div class="col-4 m-0 p-0">
       <mat-form-field
         class="w-full text-base"
-        appearance="legacy"
+        appearance="fill"
         floatLabel="never"
-        style="transform: translateY(5px); letter-spacing: 1px"
+        style="transform: translateY(10px); letter-spacing: 1px"
       >
-        <mat-label>Search Your Music</mat-label>
-        <input matInput />
+        <input matInput placeholder="Search Your Music!" />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
@@ -69,12 +70,62 @@
     <ng-scrollbar thumbClass="custom-thumb-scrollbar">
       <router-outlet></router-outlet>
       <div
-        class="footer-container w-full bg-second-color text-white grid justify-content-center m-0 p-4"
+        class="footer-container w-full bg-second-color text-white grid m-0 p-6"
         style="box-sizing: border-box !important"
       >
-        <p class="m-0 text-base" style="letter-spacing: 2px">
-          Copyright &copy; 2020 StreamIndie
-        </p>
+        <div class="col-2">
+          <p>Profile</p>
+          <div class="link-container flex m-0 p-0 flex-column gap-2">
+            <a href="#">StreamIndie</a>
+            <a href="#">Yan Chris Difa</a>
+          </div>
+        </div>
+        <div class="col-2">
+          <p>Communities</p>
+          <div class="link-container flex m-0 p-0 flex-column gap-2">
+            <a href="#">Musicians</a>
+            <a href="#">Developer</a>
+            <a href="#">Advertisement</a>
+            <a href="#">Vendors</a>
+          </div>
+        </div>
+        <div class="col-2">
+          <p>Links</p>
+          <div class="link-container flex m-0 p-0 flex-column gap-2">
+            <a href="#">Supports</a>
+            <a href="#">Free Mobile App</a>
+          </div>
+        </div>
+        <div class="col-6 flex m-0 p-0 align-items-end flex-column">
+          <p>Social Medias</p>
+          <div
+            class="link-container flex m-0 p- gap-3"
+            style="text-align: right !important"
+          >
+            <a href="#"><mat-icon svgIcon="instagram"></mat-icon></a>
+            <a href="#"><mat-icon svgIcon="twitter"></mat-icon></a>
+            <a href="#"><mat-icon svgIcon="youtube"></mat-icon></a>
+          </div>
+        </div>
+        <div
+          class="divider w-full"
+          style="height: 1px; background-color: #555 !important; margin: 3rem 0"
+        ></div>
+        <div
+          class="copyright-container grid m-0 p-0 w-full"
+          style="height: fit-content !important"
+        >
+          <div class="col flex gap-3">
+            <a href="#" class="text-white">Legal</a>
+            <a href="#" class="text-white">Privacy Center</a>
+            <a href="#" class="text-white">Privacy Policy</a>
+          </div>
+          <div class="col flex justify-content-end">
+            <p style="color: #555 !important; font-size: 1rem" class="m-0">
+              Copyright &copy; 2020 StreamIndie
+            </p>
+          </div>
+        </div>
       </div>
     </ng-scrollbar>
   </mat-sidenav-content>

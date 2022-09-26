@@ -30,6 +30,7 @@
             "styles": [
               "src/styles.scss",
               "src/custom-theming.scss",
+              "src/fonts.scss",
               "node_modules/primeflex/primeflex.css"
             ],
             "scripts": []

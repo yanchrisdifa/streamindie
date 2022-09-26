@@ -38,11 +38,9 @@ $streamindie-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-::-webkit-scrollbar {
-  display: none;
+a {
+  text-decoration: none;
 }
-
 .custom-thumb-scrollbar {
   background-color: #333333 !important;
 }

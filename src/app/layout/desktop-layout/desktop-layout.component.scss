@@ -16,7 +16,7 @@ mat-sidenav-container {
             gap: 30px;
             a {
                 display: flex;
-                gap: 15px;
+                gap: 1.5rem;
                 align-items: center;
                 p {
                     letter-spacing: 1px;
@@ -30,4 +30,52 @@ mat-sidenav-container {
     .ng-scroll-content {
         display: block !important;
     }
+}
+
+.footer-container {
+    * {
+        letter-spacing: 1px !important;
+    }
+    p {
+        font-size: 1rem;
+    }
+    a {
+        color: #555;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+}
+
+mat-icon {
+    height: fit-content !important;
+    width: fit-content !important;
+    ::ng-deep {
+        svg {
+            fill: #555555 !important;
+            height: 40px !important;
+            width: 40px !important;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-form-field-flex {
+        background-color: rgba(68, 68, 68, 0.7) !important;
+        padding: 0.75em !important;
+        border-radius: 4px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .mat-form-field-infix {
+        border: none;
+        padding: 0 !important;
+    }
+    .mat-form-field-underline {
+        display: none;
+    }
+}
+
+::placeholder {
+    color: #fff;
+    letter-spacing: 1px;
 }

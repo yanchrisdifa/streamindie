@@ -9,6 +9,11 @@ export class MenuItems {
       icon: 'home',
     },
     {
+      state: 'categories',
+      name: 'Categories',
+      icon: 'category',
+    },
+    {
       state: 'library',
       name: 'Library',
       icon: 'library_music',
