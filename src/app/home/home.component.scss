@@ -1,5 +1,44 @@
-.card-container {
-    height: 200px;
+.popular-container {
+    .card-container {
+        height: 200px;
+        overflow: hidden;
+    
+        .description-container {
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            .actions-container {
+                transition: .3s;
+                opacity: 0;
+            }
+            .text-cotainer {
+                h1 {
+                    transform: translateY(30px);
+                    transition: .3s;
+                }
+                a {
+                    transition: .3s;
+                    opacity: 0;
+                }
+            }
+            &:hover {
+                .actions-container {
+                    opacity: 1;
+                }
+                .text-cotainer {
+                    h1 {
+                        transform: translateY(0);
+                    }
+                    a {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
 }
 
 ::ng-deep {
@@ -8,5 +47,36 @@
     }
     .swiper-pagination-bullet {
         background-color: #fff;
+    }
+    .swiper-pagination {
+        bottom: -40px !important;
+    }
+}
+
+.genre-container, .new-container {
+    .overlay-container {
+        overflow: hidden;
+        button {
+            position: absolute;
+            bottom: -10%;
+            right: 10%;
+            opacity: 0;
+            transition: .3s;
+            transform: scale(1.2);
+        }
+    }
+    .card-container {
+        &:hover {
+            button {
+                opacity: 1;
+                bottom: 10%;
+            }
+        }
+    }
+}
+
+.new-container {
+    .card-container {
+        // height: 200px;
     }
 }

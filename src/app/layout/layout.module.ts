@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { DesktopLayoutComponent } from './desktop-layout/desktop-layout.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../core/shared/shared.module';
 import { MenuItems } from '../menu-items';
 
 @NgModule({

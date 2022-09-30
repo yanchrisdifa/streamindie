@@ -1,0 +1,32 @@
+[
+    {
+        "_id": "1",
+        "name": "Rock",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmSGHqh8FeQDyDirewWZY4HIxkUBWZ9sC3-cdHu6BojNV4fwIfY241pBzqwZC4VKL7cO2SSr4ng=w1366-h600"
+    },
+    {
+        "_id": "2",
+        "name": "Metal",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRQmSretSxjuikSOHuU23Qtc7Hqc0HadRlFeVpcFVMHb65hnruwFpsMmKj_1ypxL-XbAuJhNfI=w1366-h600"
+    },
+    {
+        "_id": "3",
+        "name": "Punk",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmQH4QMgEWzeiXWxqLmPAaCKG8ljEbEFvUTsfFKyzEkGI5Ab6gYOHYSYvNZAvYaU7aARcC_5yws=w1366-h600"
+    },
+    {
+        "_id": "4",
+        "name": "Alternative",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRccOc_7Gm-hv4oaN9c-spoV5ewoKXah8W1S3139P0KbPsEHIGulxwpYkgfCwVp7-eAkg5ZOtw=w1366-h600"
+    },
+    {
+        "_id": "5",
+        "name": "Post Hardcore",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRQmSretSxjuikSOHuU23Qtc7Hqc0HadRlFeVpcFVMHb65hnruwFpsMmKj_1ypxL-XbAuJhNfI=w1366-h600"
+    },
+    {
+        "_id": "6",
+        "name": "Metalcore",
+        "image_url": "https://lh3.googleusercontent.com/drive-viewer/AJc5JmRQmSretSxjuikSOHuU23Qtc7Hqc0HadRlFeVpcFVMHb65hnruwFpsMmKj_1ypxL-XbAuJhNfI=w1366-h600"
+    }
+]

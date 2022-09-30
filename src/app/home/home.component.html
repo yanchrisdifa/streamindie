@@ -13,8 +13,6 @@
       <swiper
         [slidesPerView]="1"
         [spaceBetween]="50"
-        (swiper)="onSwiper($event)"
-        (slideChange)="onSlideChange()"
         [loop]="true"
         [autoplay]="{ delay: 5000 }"
       >
@@ -81,35 +79,93 @@
     </div>
     <div
       class="popular-container col-12 m-0 p-0 m-auto"
-      style="max-width: 1270px"
+      style="max-width: 1270px; overflow: hidden !important"
+      *ngIf="artistsData?.length > 0"
     >
       <swiper
         #swiper
         [slidesPerView]="3"
         [spaceBetween]="50"
-        (swiper)="onSwiper($event)"
-        (slideChange)="onSlideChange()"
         [pagination]="{ clickable: true }"
         [autoplay]="{ delay: 3000 }"
+        style="overflow: visible !important"
         [loop]="true"
       >
-        <ng-template swiperSlide>
-          <div class="bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="bg-second-color card-container"></div>
-        </ng-template>
+        <ng-container *ngFor="let artist of artistsData; let i = index">
+          <ng-template swiperSlide>
+            <div
+              class="bg-second-color card-container"
+              style="position: relative !important"
+            >
+              <div class="image-container">
+                <img
+                  [src]="artist?.image?.url"
+                  style="width: 100% !important; height: 100% !important"
+                />
+              </div>
+              <div
+                class="description-container flex align-items-end justify-content-between p-4"
+              >
+                <div class="text-cotainer">
+                  <h1
+                    class="m-0"
+                    style="height: fit-content !important; letter-spacing: 1px"
+                  >
+                    {{ artist?.name }}
+                  </h1>
+                  <a
+                    href="#"
+                    class="text-third-color flex align-items-center gap-2"
+                    style="letter-spacing: 1px; font-size: 1rem !important"
+                    >See Artist <mat-icon>arrow_right_alt</mat-icon></a
+                  >
+                </div>
+                <div class="actions-container">
+                  <!-- Star button -->
+                  <button
+                    *ngIf="isArtistsStared[i]"
+                    mat-icon-button
+                    (click)="starOrUnstarArtist(i)"
+                  >
+                    <mat-icon style="transform: scale(1.2)">star</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="!isArtistsStared[i]"
+                    mat-icon-button
+                    (click)="starOrUnstarArtist(i)"
+                  >
+                    <mat-icon style="transform: scale(1.2)"
+                      >star_border</mat-icon
+                    >
+                  </button>
+
+                  <!-- Bookmark button -->
+                  <button
+                    *ngIf="isArtistsSaved[i]"
+                    mat-icon-button
+                    (click)="saveOrUnsaveArtist(i)"
+                  >
+                    <mat-icon style="transform: scale(1.2)">bookmark</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="!isArtistsSaved[i]"
+                    mat-icon-button
+                    (click)="saveOrUnsaveArtist(i)"
+                  >
+                    <mat-icon style="transform: scale(1.2)"
+                      >bookmark_border</mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </swiper>
       <div
         class="description-container w-full flex justify-content-between mt-3"
       >
-        <h2 style="letter-spacing: 3px !important">POPULAR</h2>
+        <h2 style="letter-spacing: 3px !important">POPULAR ARTISTS</h2>
         <a
           href="#"
           class="text-third-color flex align-items-center gap-2"
@@ -118,33 +174,63 @@
         >
       </div>
     </div>
-    <div class="genre-container col-12 m-auto p-0" style="max-width: 1270px">
+    <div
+      class="genre-container col-12 m-auto p-0"
+      style="max-width: 1270px; overflow: hidden !important"
+      *ngIf="genresData?.length > 0"
+    >
       <swiper
         #swiper
         [slidesPerView]="5"
-        [spaceBetween]="50"
-        (swiper)="onSwiper($event)"
-        (slideChange)="onSlideChange()"
+        [spaceBetween]="20"
+        [loop]="true"
         [pagination]="{ clickable: true }"
+        style="overflow: visible !important"
       >
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
+        <ng-container *ngFor="let genre of genresData">
+          <ng-template swiperSlide>
+            <div
+              class="col-12 bg-second-color card-container"
+              style="padding: 20px !important; box-sizing: border-box"
+            >
+              <div
+                class="image-container m-0"
+                style="
+                  width: 100% !important;
+                  height: 200px !important;
+                  overflow: hidden;
+                  position: relative;
+                "
+              >
+                <img
+                  [src]="genre?.image?.url"
+                  style="width: 100% !important; height: 100% !important"
+                />
+                <div
+                  class="overlay-container flex justify-content-end"
+                  style="
+                    position: absolute !important;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                  "
+                >
+                  <button mat-mini-fab class="bg-third-color">
+                    <mat-icon style="color: #111 !important"
+                      >play_arrow</mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
+              <div class="description-container mt-2">
+                <h2 class="m-0" style="letter-spacing: 1px !important">
+                  {{ genre?.name }}
+                </h2>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </swiper>
       <div
         class="description-container w-full flex justify-content-between mt-3"
@@ -160,34 +246,75 @@
     </div>
     <div
       class="new-container col-12 p-0 m-auto"
-      style="max-width: 1270px; margin-bottom: 50px !important"
+      style="
+        max-width: 1270px;
+        margin-bottom: 50px !important;
+        overflow: hidden !important;
+      "
+      *ngIf="songsData?.length > 0"
     >
       <swiper
         #swiper
         [slidesPerView]="5"
         [spaceBetween]="50"
-        (swiper)="onSwiper($event)"
-        (slideChange)="onSlideChange()"
         [pagination]="{ clickable: true }"
+        style="overflow: visible !important"
       >
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
-        <ng-template swiperSlide>
-          <div class="col-12 bg-second-color card-container"></div>
-        </ng-template>
+        <ng-container *ngFor="let song of songsData">
+          <ng-template swiperSlide>
+            <div
+              class="col-12 bg-second-color card-container"
+              style="padding: 20px !important; box-sizing: border-box"
+            >
+              <div
+                class="image-container m-0"
+                style="
+                  width: 100% !important;
+                  height: 200px !important;
+                  overflow: hidden;
+                  position: relative;
+                "
+              >
+                <img
+                  [src]="song?.image?.url"
+                  style="width: 100% !important; height: 100% !important"
+                />
+                <div
+                  class="overlay-container flex justify-content-end"
+                  style="
+                    position: absolute !important;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                  "
+                >
+                  <button mat-mini-fab class="bg-third-color">
+                    <mat-icon style="color: #111 !important"
+                      >play_arrow</mat-icon
+                    >
+                  </button>
+                </div>
+              </div>
+              <div class="description-container mt-2">
+                <h2 class="m-0" style="letter-spacing: 1px !important">
+                  {{ song?.title | separateTitle: "title" }}
+                </h2>
+                <p
+                  style="
+                    color: #555;
+                    font-size: 1rem;
+                    letter-spacing: 1px !important;
+                    margin-top: 5px !important;
+                  "
+                  class="m-0"
+                >
+                  {{ song?.title | separateTitle: "artist" }}
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
       </swiper>
       <div
         class="description-container w-full flex justify-content-between mt-3"

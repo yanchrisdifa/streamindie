@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SubSink } from 'subsink';
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -9,6 +10,11 @@ import SwiperCore, {
   EffectCoverflow,
 } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
+import { artist } from '../core/models/artists.model';
+import { genre } from '../core/models/genres.model';
+import { ArtistsService } from '../core/services/artists.service';
+import { GenresService } from '../core/services/genres.service';
+import { SongsService } from '../core/services/songs.service';
 SwiperCore.use([
   Navigation,
   Pagination,
@@ -23,8 +29,11 @@ SwiperCore.use([
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
+  artistsData: artist[];
+  genresData: genre[];
+  songsData: any[];
 
   bannerData = [
     {
@@ -39,12 +48,58 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  isArtistsStared: boolean[] = [];
+  isArtistsSaved: boolean[] = [];
 
-  ngOnInit(): void {}
+  private subs = new SubSink();
 
-  onSwiper(swiper) {
-    console.log(swiper);
+  constructor(
+    private artistsService: ArtistsService,
+    private genresService: GenresService,
+    private songsService: SongsService
+  ) {}
+
+  ngOnInit(): void {
+    this.getAllPopularArtist();
+    this.getAllGenres();
+    this.getAllNewSongs();
   }
-  onSlideChange() {}
+
+  getAllPopularArtist() {
+    this.subs.sink = this.artistsService
+      .getAllArtists()
+      .subscribe((datas: artist[]) => {
+        this.artistsData = datas;
+        datas.forEach(() => {
+          this.isArtistsStared.push(false);
+          this.isArtistsSaved.push(false);
+        });
+      });
+  }
+
+  getAllGenres() {
+    this.subs.sink = this.genresService
+      .getAllGenres()
+      .subscribe((datas: genre[]) => {
+        this.genresData = datas;
+      });
+  }
+
+  getAllNewSongs() {
+    this.subs.sink = this.songsService.getAllSongs().subscribe((data) => {
+      this.songsData = data;
+    });
+  }
+
+  starOrUnstarArtist(index: number): void {
+    this.isArtistsStared[index] = this.isArtistsStared[index] ? false : true;
+  }
+
+  saveOrUnsaveArtist(index: number): void {
+    this.isArtistsSaved[index] = this.isArtistsSaved[index] ? false : true;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 }

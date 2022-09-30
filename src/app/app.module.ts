@@ -3,10 +3,12 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './core/shared/shared.module';
 import { RoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
 import { MatIconRegistry } from '@angular/material/icon';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +18,8 @@ import { MatIconRegistry } from '@angular/material/icon';
     SharedModule,
     RoutingModule,
     LayoutModule,
+    GraphQLModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
