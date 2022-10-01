@@ -51,6 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   isArtistsStared: boolean[] = [];
   isArtistsSaved: boolean[] = [];
 
+  currentPlayingSong: any[];
+
   private subs = new SubSink();
 
   constructor(
@@ -63,6 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getAllPopularArtist();
     this.getAllGenres();
     this.getAllNewSongs();
+    this.getCurrentPlayingSong();
   }
 
   getAllPopularArtist() {
@@ -86,8 +89,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getAllNewSongs() {
-    this.subs.sink = this.songsService.getAllSongs().subscribe((data) => {
-      this.songsData = data;
+    this.subs.sink = this.songsService.getAllSongs().subscribe((datas) => {
+      this.songsData = datas;
+    });
+  }
+
+  getCurrentPlayingSong(type?) {
+    console.log('type', type);
+    this.songsService.currentPlayingSong$.subscribe((data) => {
+      this.currentPlayingSong = data;
+      console.log(this.currentPlayingSong);
     });
   }
 
@@ -97,6 +108,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   saveOrUnsaveArtist(index: number): void {
     this.isArtistsSaved[index] = this.isArtistsSaved[index] ? false : true;
+  }
+
+  setCurrentPlayingSong(songData: any): void {
+    this.songsService.setCurrentPlayingSong(songData);
   }
 
   ngOnDestroy(): void {

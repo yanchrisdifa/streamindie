@@ -1,0 +1,10 @@
+<div
+  class="audio-container"
+  [ngStyle]="{
+    display: this.currentPlayingSong?.audio?.url ? 'block' : 'none'
+  }"
+>
+  <audio controls muted="muted" #audioPlayer>
+    <source [src]="currentPlayingSong?.audio?.url" type="audio/mpeg" />
+  </audio>
+</div>

@@ -256,7 +256,7 @@
       <swiper
         #swiper
         [slidesPerView]="5"
-        [spaceBetween]="50"
+        [spaceBetween]="20"
         [pagination]="{ clickable: true }"
         style="overflow: visible !important"
       >
@@ -289,9 +289,26 @@
                     right: 0;
                   "
                 >
-                  <button mat-mini-fab class="bg-third-color">
-                    <mat-icon style="color: #111 !important"
+                  <button
+                    mat-mini-fab
+                    class="bg-third-color"
+                    (click)="setCurrentPlayingSong(song)"
+                  >
+                    <mat-icon
+                      style="color: #111 !important"
+                      *ngIf="
+                        song?.id !== currentPlayingSong?.id ||
+                        !currentPlayingSong?.isPlayed
+                      "
                       >play_arrow</mat-icon
+                    >
+                    <mat-icon
+                      style="color: #111 !important"
+                      *ngIf="
+                        song?.id === currentPlayingSong?.id &&
+                        currentPlayingSong?.isPlayed
+                      "
+                      >pause</mat-icon
                     >
                   </button>
                 </div>

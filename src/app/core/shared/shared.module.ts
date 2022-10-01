@@ -14,6 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SwiperModule } from 'swiper/angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SongTitleSeparator } from './pipes/song-title-separator.pipe';
+import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -30,9 +31,17 @@ const libModule = [SwiperModule, NgScrollbarModule];
 
 const pipes = [SongTitleSeparator];
 
+const components = [AudioPlayerComponent];
+
 @NgModule({
-  declarations: [...pipes],
+  declarations: [...pipes, ...components],
   imports: [CommonModule, HttpClientModule, ...libModule, ...materialModules],
-  exports: [HttpClientModule, ...libModule, ...materialModules, ...pipes],
+  exports: [
+    HttpClientModule,
+    ...libModule,
+    ...materialModules,
+    ...pipes,
+    ...components,
+  ],
 })
 export class SharedModule {}
