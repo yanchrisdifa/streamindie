@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   setCurrentPlayingSong(songData: any): void {
     this.songsService.setCurrentPlayingSong(songData);
+    console.log('test di component home', songData);
   }
 
   ngOnDestroy(): void {

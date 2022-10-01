@@ -47,20 +47,12 @@ export class SongsService {
   }
 
   setCurrentPlayingSong(songData: any): void {
-    console.log(
-      this.oldPlayingSongId,
-      songData?.id,
-      this.oldPlayingSongId === songData?.id
-    );
     if (this.oldPlayingSongId === songData?.id) {
-      console.log('masuk sini 1?', songData);
       this.rawCurrentPlayingSong = {
         ...this.rawCurrentPlayingSong,
         isPlayed: this.rawCurrentPlayingSong?.isPlayed === true ? false : true,
       };
-      console.log('masuk sini?', songData);
     } else {
-      console.log('masuk else', songData);
       this.rawCurrentPlayingSong = {
         ...songData,
         isPlayed: true,

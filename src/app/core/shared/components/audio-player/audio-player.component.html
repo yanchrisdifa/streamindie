@@ -4,7 +4,7 @@
     display: this.currentPlayingSong?.audio?.url ? 'block' : 'none'
   }"
 >
-  <audio controls muted="muted" #audioPlayer>
+  <audio controls #audioPlayer>
     <source [src]="currentPlayingSong?.audio?.url" type="audio/mpeg" />
   </audio>
 </div>
