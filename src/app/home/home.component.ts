@@ -95,10 +95,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getCurrentPlayingSong(type?) {
-    console.log('type', type);
-    this.songsService.currentPlayingSong$.subscribe((data) => {
+    this.subs.sink = this.songsService.currentPlayingSong$.subscribe((data) => {
       this.currentPlayingSong = data;
-      console.log(this.currentPlayingSong);
     });
   }
 
@@ -112,7 +110,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   setCurrentPlayingSong(songData: any): void {
     this.songsService.setCurrentPlayingSong(songData);
-    console.log('test di component home', songData);
   }
 
   ngOnDestroy(): void {

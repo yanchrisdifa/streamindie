@@ -21,6 +21,8 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlayingSong: any = null;
   @ViewChild('audioPlayer') audioPlayer: ElementRef;
   private subs = new SubSink();
+  currentPlayingSongDuration: string;
+  songProgress: any;
 
   constructor(
     private songsService: SongsService,
@@ -75,6 +77,48 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
         oldPlayingSongId = null;
       }
     });
+  }
+
+  setCurrentPlayingSong(songData: any) {
+    this.songsService.setCurrentPlayingSong(songData);
+  }
+
+  getDuration() {
+    if (this.audioPlayer?.nativeElement) {
+      this.audioPlayer.nativeElement.onloadedmetadata = () => {
+        if (
+          !isNaN(this.audioPlayer.nativeElement.duration) &&
+          typeof this.audioPlayer.nativeElement.duration === 'number'
+        ) {
+          return this.timeFormat(this.audioPlayer.nativeElement.duration);
+        }
+      };
+      return this.audioPlayer.nativeElement.onloadedmetadata();
+    }
+  }
+
+  getCurrentTime() {
+    if (this.audioPlayer?.nativeElement) {
+      this.audioPlayer.nativeElement.ontimeupdate = () => {
+        this.songProgress =
+          Math.floor(
+            (this.audioPlayer.nativeElement.currentTime * 100) /
+              this.audioPlayer.nativeElement.duration
+          ) + '%';
+        return this.timeFormat(this.audioPlayer.nativeElement.currentTime);
+      };
+      return this.audioPlayer.nativeElement.ontimeupdate();
+    }
+  }
+
+  timeFormat(time: number) {
+    return (
+      Math.floor(time / 60) +
+      ':' +
+      (Math.floor(time % 60) < 10
+        ? '0' + Math.floor(time % 60)
+        : Math.floor(time % 60))
+    );
   }
 
   ngOnDestroy(): void {
