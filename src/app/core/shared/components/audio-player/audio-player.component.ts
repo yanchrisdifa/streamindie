@@ -8,7 +8,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core';
-import { distinctUntilChanged } from 'rxjs';
+import { distinctUntilChanged, of } from 'rxjs';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
 
@@ -22,7 +22,8 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('audioPlayer') audioPlayer: ElementRef;
   private subs = new SubSink();
   currentPlayingSongDuration: string;
-  songProgress: any;
+  songProgress: string = '0%';
+  songCurrentTime: string = '0:00';
 
   constructor(
     private songsService: SongsService,
@@ -33,6 +34,7 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.getCurrentPlayingSong();
+    this.getCurrentTime();
     this.cdr.detectChanges();
   }
 
@@ -105,9 +107,16 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
             (this.audioPlayer.nativeElement.currentTime * 100) /
               this.audioPlayer.nativeElement.duration
           ) + '%';
-        return this.timeFormat(this.audioPlayer.nativeElement.currentTime);
+        this.songCurrentTime = this.timeFormat(
+          this.audioPlayer.nativeElement.currentTime
+        );
+        if (
+          this.audioPlayer.nativeElement.currentTime ===
+          this.audioPlayer.nativeElement.duration
+        ) {
+          this.songsService.setCurrentPlayingSong(this.currentPlayingSong);
+        }
       };
-      return this.audioPlayer.nativeElement.ontimeupdate();
     }
   }
 
