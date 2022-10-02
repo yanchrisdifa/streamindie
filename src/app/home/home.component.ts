@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getAllPopularArtist() {
     this.subs.sink = this.artistsService
-      .getAllArtists()
+      .getAllArtists('where: { userType: { equals: artist } }')
       .subscribe((datas: artist[]) => {
         this.artistsData = datas;
         datas.forEach(() => {
@@ -82,16 +82,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getAllGenres() {
     this.subs.sink = this.genresService
-      .getAllGenres()
+      .getAllGenres('take: 10')
       .subscribe((datas: genre[]) => {
         this.genresData = datas;
       });
   }
 
   getAllNewSongs() {
-    this.subs.sink = this.songsService.getAllSongs().subscribe((datas) => {
-      this.songsData = datas;
-    });
+    this.subs.sink = this.songsService
+      .getAllSongs('take: 10')
+      .subscribe((datas) => {
+        this.songsData = datas;
+      });
   }
 
   getCurrentPlayingSong(type?) {
@@ -100,16 +102,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  setCurrentPlayingSong(songData: any): void {
+    this.songsService.setCurrentPlayingSong(songData);
+  }
+
+  setCurrentPlayingSongByGenre(genreData: any): void {}
+
   starOrUnstarArtist(index: number): void {
     this.isArtistsStared[index] = this.isArtistsStared[index] ? false : true;
   }
 
   saveOrUnsaveArtist(index: number): void {
     this.isArtistsSaved[index] = this.isArtistsSaved[index] ? false : true;
-  }
-
-  setCurrentPlayingSong(songData: any): void {
-    this.songsService.setCurrentPlayingSong(songData);
   }
 
   ngOnDestroy(): void {

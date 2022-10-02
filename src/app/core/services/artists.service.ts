@@ -10,12 +10,12 @@ import { Apollo, gql } from 'apollo-angular';
 export class ArtistsService {
   constructor(private apollo: Apollo) {}
 
-  getAllArtists(): Observable<artist | artist[]> {
+  getAllArtists(payload): Observable<artist | artist[]> {
     return this.apollo
       .query<any[]>({
         query: gql`
           query {
-            users(where: { userType: { equals: artist } }) {
+            users(${payload}) {
               id
               name
               userType

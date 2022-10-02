@@ -15,12 +15,12 @@ export class SongsService {
 
   constructor(private apollo: Apollo) {}
 
-  getAllSongs(): Observable<any[]> {
+  getAllSongs(payload): Observable<any[]> {
     return this.apollo
       .query<any[]>({
         query: gql`
           query {
-            songs(take: 10) {
+            songs(${payload}) {
               id
               title
               genres {

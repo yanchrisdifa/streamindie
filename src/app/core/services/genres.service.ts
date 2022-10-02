@@ -10,12 +10,12 @@ import { Apollo, gql } from 'apollo-angular';
 export class GenresService {
   constructor(private apollo: Apollo) {}
 
-  getAllGenres(): Observable<genre | genre[]> {
+  getAllGenres(payload): Observable<genre | genre[]> {
     return this.apollo
       .query<any[]>({
         query: gql`
           query {
-            genres(take: 10) {
+            genres(${payload}) {
               id
               name
               image {
