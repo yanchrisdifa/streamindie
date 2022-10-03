@@ -106,7 +106,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.songsService.setCurrentPlayingSong(songData);
   }
 
-  setCurrentPlayingSongByGenre(genreData: any): void {}
+  setCurrentPlayingSongByGenre(genreData: any): void {
+    let tempSong = [];
+    if (this.songsData?.length) {
+      tempSong = this.songsData?.filter((songData) => {
+        return songData?.genres?.find(
+          (songGenre) => songGenre?.name === genreData?.name
+        );
+      });
+    }
+    if (tempSong?.length) {
+      const randomIndex = Math.floor(
+        Math.random() * (tempSong.length - 1 - 0) + 0
+      );
+      this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
+    }
+  }
 
   starOrUnstarArtist(index: number): void {
     this.isArtistsStared[index] = this.isArtistsStared[index] ? false : true;
