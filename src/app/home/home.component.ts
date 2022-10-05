@@ -51,7 +51,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   isArtistsStared: boolean[] = [];
   isArtistsSaved: boolean[] = [];
 
-  currentPlayingSong: any[];
+  currentPlayingSong: any;
+  currentPlayingGenre: any;
 
   private subs = new SubSink();
 
@@ -66,6 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getAllGenres();
     this.getAllNewSongs();
     this.getCurrentPlayingSong();
+    this.getCurrentPlayingGenre();
   }
 
   getAllPopularArtist() {
@@ -107,20 +109,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setCurrentPlayingSongByGenre(genreData: any): void {
-    let tempSong = [];
-    if (this.songsData?.length) {
-      tempSong = this.songsData?.filter((songData) => {
-        return songData?.genres?.find(
-          (songGenre) => songGenre?.name === genreData?.name
+    if (genreData?.id === this.genresService.oldPlayingGenreId) {
+      this.genresService.setCurrentPlayingGenre(genreData);
+      this.songsService.setCurrentPlayingSong(this.currentPlayingSong);
+    } else {
+      let tempSong = [];
+      if (this.songsData?.length) {
+        tempSong = this.songsData?.filter((songData) => {
+          return songData?.genres?.find(
+            (songGenre) => songGenre?.name === genreData?.name
+          );
+        });
+      }
+      if (tempSong?.length) {
+        const randomIndex = Math.floor(
+          Math.random() * (tempSong.length - 1 - 0) + 0
         );
-      });
+        this.genresService.setCurrentPlayingGenre(genreData);
+        this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
+      }
     }
-    if (tempSong?.length) {
-      const randomIndex = Math.floor(
-        Math.random() * (tempSong.length - 1 - 0) + 0
-      );
-      this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
-    }
+  }
+
+  getCurrentPlayingGenre() {
+    this.genresService.currentPlayingGenre$.subscribe((data) => {
+      this.currentPlayingGenre = data;
+    });
   }
 
   starOrUnstarArtist(index: number): void {

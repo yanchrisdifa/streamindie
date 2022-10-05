@@ -216,9 +216,27 @@
                     right: 0;
                   "
                 >
-                  <button mat-mini-fab class="bg-third-color" (click)="setCurrentPlayingSongByGenre(genre)">
-                    <mat-icon style="color: #111 !important"
+                  <button
+                    mat-mini-fab
+                    class="bg-third-color"
+                    (click)="setCurrentPlayingSongByGenre(genre)"
+                  >
+                    <mat-icon
+                      style="color: #111 !important"
+                      *ngIf="
+                        genre?.id !== currentPlayingGenre?.id ||
+                        (genre?.id === currentPlayingGenre?.id &&
+                          !currentPlayingGenre?.isPlayed)
+                      "
                       >play_arrow</mat-icon
+                    >
+                    <mat-icon
+                      style="color: #111 !important"
+                      *ngIf="
+                        genre?.id === currentPlayingGenre?.id &&
+                        currentPlayingGenre?.isPlayed
+                      "
+                      >pause</mat-icon
                     >
                   </button>
                 </div>
