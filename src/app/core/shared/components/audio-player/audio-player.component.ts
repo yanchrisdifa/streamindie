@@ -9,6 +9,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { distinctUntilChanged, of } from 'rxjs';
+import { GenresService } from 'src/app/core/services/genres.service';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
 
@@ -24,10 +25,12 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlayingSongDuration: string;
   songProgress: string = '0%';
   songCurrentTime: string = '0:00';
+  currentPlayingGenre: any;
 
   constructor(
     private songsService: SongsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private genresService: GenresService
   ) {}
 
   ngOnInit(): void {}
@@ -35,6 +38,7 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.getCurrentPlayingSong();
     this.getCurrentTime();
+    this.getCurrentPlayingGenre();
     this.cdr.detectChanges();
   }
 
@@ -82,6 +86,9 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setCurrentPlayingSong(songData: any) {
+    if (this.currentPlayingGenre?.id) {
+      this.genresService.setCurrentPlayingGenre(this.currentPlayingGenre);
+    }
     this.songsService.setCurrentPlayingSong(songData);
   }
 
@@ -128,6 +135,12 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
         ? '0' + Math.floor(time % 60)
         : Math.floor(time % 60))
     );
+  }
+
+  getCurrentPlayingGenre() {
+    this.genresService.currentPlayingGenre$.subscribe((data) => {
+      this.currentPlayingGenre = data;
+    });
   }
 
   ngOnDestroy(): void {

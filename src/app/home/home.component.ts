@@ -105,6 +105,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setCurrentPlayingSong(songData: any): void {
+    if (this.currentPlayingGenre) {
+      this.genresService.setCurrentPlayingGenre(this.currentPlayingGenre);
+    }
     this.songsService.setCurrentPlayingSong(songData);
   }
 
