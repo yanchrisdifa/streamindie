@@ -23,7 +23,7 @@ export class SongsService {
             songs(${payload}) {
               id
               title
-              genres {
+              genre {
                 name
               }
               artists {

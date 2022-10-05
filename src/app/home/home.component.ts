@@ -119,9 +119,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       let tempSong = [];
       if (this.songsData?.length) {
         tempSong = this.songsData?.filter((songData) => {
-          return songData?.genres?.find(
-            (songGenre) => songGenre?.name === genreData?.name
-          );
+          return songData?.genre?.name === genreData?.name;
         });
       }
       if (tempSong?.length) {
