@@ -123,9 +123,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
       }
       if (tempSong?.length) {
-        const randomIndex = Math.floor(
-          Math.random() * (tempSong.length - 1 - 0) + 0
-        );
+        const max = tempSong.length - 1;
+        const randomIndex = Math.round(Math.random() * (max - 0) - 0);
         this.genresService.setCurrentPlayingGenre(genreData);
         this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
       }
