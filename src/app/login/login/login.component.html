@@ -1,1 +1,98 @@
-<p>login works!</p>
+<div class="login-container w-full h-full p-0 m-0 grid">
+  <div
+    class="col flex align-items-center w-full"
+    style="
+      background: linear-gradient(to bottom right, #33f58e, #fff, #33f58e);
+      padding: 0 40px;
+      box-sizing: border-box;
+    "
+  >
+    <div class="text-container flex gap-3 flex-column">
+      <h1
+        style="line-height: 3.2rem; font-size: 2.3rem; font-weight: 500"
+        class="m-0"
+      >
+        Lorem ipsum dolor sit amet.
+      </h1>
+      <p
+        style="
+          font-size: 1.1rem;
+          letter-spacing: 1px;
+          line-height: 25px;
+          width: 70%;
+          color: #555;
+        "
+      >
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id unde
+        aliquam laborum quisquam aut quasi!
+      </p>
+      <button
+        mat-flat-button
+        style="
+          padding: 5px 30px !important;
+          letter-spacing: 1px;
+          width: fit-content;
+        "
+        class="bg-third-color border-round-3xl"
+        routerLink="/app"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Back to Home
+      </button>
+    </div>
+  </div>
+  <div
+    class="col bg-second-color flex align-items-center justify-content-center m-0 p-0"
+  >
+    <div
+      class="form-container m-0 p-0 flex flex-column justify-content-center align-items-center"
+      style="width: 50%"
+    >
+      <h1
+        class="text-5xl text-white p-0"
+        style="letter-spacing: 2px !important; font-family: stereofidelic"
+      >
+        Stream<span class="text-third-color">Indie</span>
+      </h1>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="transform: translateY(10px); letter-spacing: 1px"
+      >
+        <input matInput placeholder="Username" class="text-white" />
+      </mat-form-field>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="transform: translateY(10px); letter-spacing: 1px"
+      >
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          class="text-white"
+        />
+      </mat-form-field>
+      <button
+        mat-flat-button
+        class="w-full bg-third-color text-white"
+        style="margin-top: 10px"
+      >
+        Login
+      </button>
+      <div
+        style="
+          height: 1px;
+          background-color: #555 !important;
+          margin: 2rem 0 1.2rem 0;
+        "
+        class="w-full"
+      ></div>
+      <p class="text-white" style="letter-spacing: 1px">
+        Don't have an account? <a class="text-third-color">Sign Up Now!</a>
+      </p>
+    </div>
+  </div>
+</div>

@@ -4,11 +4,11 @@ import { MenuItems } from 'src/app/menu-items';
 import { Menu } from 'src/app/menu-items.model';
 
 @Component({
-  selector: 'app-desktop-layout',
-  templateUrl: './desktop-layout.component.html',
-  styleUrls: ['./desktop-layout.component.scss'],
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
 })
-export class DesktopLayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit {
   menuList: Menu[];
 
   constructor(private menuItems: MenuItems) {}
