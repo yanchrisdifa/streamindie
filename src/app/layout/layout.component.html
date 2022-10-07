@@ -53,10 +53,13 @@
       <ng-container *ngIf="userData">
         <div class="profile-picture-container" [matMenuTriggerFor]="userAction">
           <div
-            style="width: 40px; height: 40px; border-radius: 50%"
-            [ngStyle]="{
-              'background-color': userData?.image?.url ? 'red' : 'blue'
-            }"
+            style="
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background-size: cover !important;
+            "
+            [ngStyle]="{ 'background-image': getUserProfilePicture() }"
           ></div>
         </div>
         <mat-menu #userAction="matMenu">

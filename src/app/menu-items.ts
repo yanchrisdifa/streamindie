@@ -4,24 +4,19 @@ import { Menu } from './menu-items.model';
 export class MenuItems {
   menus: Menu[] = [
     {
-      state: '',
+      state: '/app',
       name: 'Home',
       icon: 'home',
     },
     {
-      state: 'categories',
-      name: 'Categories',
-      icon: 'category',
+      state: '/app/my-music',
+      name: 'My Music',
+      icon: 'music_note',
     },
     {
-      state: 'library',
+      state: '/app/library',
       name: 'Library',
       icon: 'library_music',
-    },
-    {
-      state: 'popular',
-      name: 'Popular',
-      icon: 'stars',
     },
   ];
 }

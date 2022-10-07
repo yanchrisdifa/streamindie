@@ -89,10 +89,12 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setCurrentPlayingSong(songData: any) {
-    if (this.currentPlayingGenre?.id) {
-      this.genresService.setCurrentPlayingGenre(this.currentPlayingGenre);
+    if (songData) {
+      if (this.currentPlayingGenre?.id) {
+        this.genresService.setCurrentPlayingGenre(this.currentPlayingGenre);
+      }
+      this.songsService.setCurrentPlayingSong(songData);
     }
-    this.songsService.setCurrentPlayingSong(songData);
   }
 
   getDuration() {

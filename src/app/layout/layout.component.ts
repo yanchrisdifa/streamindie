@@ -23,4 +23,10 @@ export class LayoutComponent implements OnInit {
   logOut() {
     this.authService.logOut();
   }
+
+  getUserProfilePicture() {
+    return this.userData?.image?.url
+      ? `url(${this.userData.image.url})`
+      : 'url(../../assets/images/default-user-profile.png)';
+  }
 }
