@@ -54,6 +54,9 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data) {
         if (this.audioPlayer) {
           this.currentPlayingSong = data;
+          if (isPageReloaded && !oldPlayingSongId) {
+            isPageReloaded = false;
+          }
           if (!isPageReloaded) {
             if (oldPlayingSongId === this.currentPlayingSong.id) {
               if (!this.currentPlayingSong?.isPlayed) {

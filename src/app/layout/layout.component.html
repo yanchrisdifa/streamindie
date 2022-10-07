@@ -28,26 +28,55 @@
       </mat-form-field>
     </div>
     <div class="col-4 grid m-0 p-0 justify-content-end gap-3">
-      <button
-        mat-flat-button
-        style="padding: 0 30px !important; letter-spacing: 1px"
-        class="bg-third-color border-round-3xl"
-      >
-        Sign Up
-      </button>
-      <button
-        mat-flat-button
-        style="
-          background-color: transparent !important;
-          border: 3px solid #33f58e !important;
-          padding: 0 30px !important;
-          letter-spacing: 1px;
-        "
-        class="text-white border-round-3xl"
-        routerLink="/session/login"
-      >
-        Sign In
-      </button>
+      <ng-container *ngIf="!userData">
+        <button
+          mat-flat-button
+          style="padding: 0 30px !important; letter-spacing: 1px"
+          class="bg-third-color border-round-3xl"
+        >
+          Sign Up
+        </button>
+        <button
+          mat-flat-button
+          style="
+            background-color: transparent !important;
+            border: 3px solid #33f58e !important;
+            padding: 0 30px !important;
+            letter-spacing: 1px;
+          "
+          class="text-white border-round-3xl"
+          routerLink="/session/login"
+        >
+          Sign In
+        </button>
+      </ng-container>
+      <ng-container *ngIf="userData">
+        <div class="profile-picture-container" [matMenuTriggerFor]="userAction">
+          <div
+            style="width: 40px; height: 40px; border-radius: 50%"
+            [ngStyle]="{
+              'background-color': userData?.image?.url ? 'red' : 'blue'
+            }"
+          ></div>
+        </div>
+        <mat-menu #userAction="matMenu">
+          <div class="custom-mat-menu-item">
+            <p class="m-0 p-0">Signed in as</p>
+            <p
+              class="m-0 p-0"
+              style="font-weight: 500; margin-top: 2px !important"
+            >
+              {{ userData?.name }}
+            </p>
+          </div>
+          <div style="height: 1px; width: 100%; background-color: #ccc"></div>
+          <button mat-menu-item>Your Profile</button>
+          <button mat-menu-item>Your Account</button>
+          <button mat-menu-item>Settings</button>
+          <div style="height: 1px; width: 100%; background-color: #ccc"></div>
+          <button mat-menu-item (click)="logOut()">Sign Out</button>
+        </mat-menu>
+      </ng-container>
     </div>
   </div>
 </mat-toolbar>

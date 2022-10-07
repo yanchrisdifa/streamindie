@@ -67,4 +67,10 @@ export class SongsService {
       JSON.parse(localStorage.getItem('currentPlayingSong'))
     );
   }
+
+  resetCurrentPlayingSong() {
+    this.currentPlayingSong$.next(null);
+    this.rawCurrentPlayingSong = null;
+    this.oldPlayingSongId = null;
+  }
 }

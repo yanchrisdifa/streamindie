@@ -15,6 +15,8 @@ import { SwiperModule } from 'swiper/angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SongTitleSeparator } from './pipes/song-title-separator.pipe';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 
 const materialModules = [
   MatSidenavModule,
@@ -25,9 +27,10 @@ const materialModules = [
   MatInputModule,
   MatDividerModule,
   MatTooltipModule,
+  MatMenuModule,
 ];
 
-const libModule = [SwiperModule, NgScrollbarModule];
+const libModule = [SwiperModule, NgScrollbarModule, ReactiveFormsModule];
 
 const pipes = [SongTitleSeparator];
 

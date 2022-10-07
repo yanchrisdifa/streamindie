@@ -49,4 +49,10 @@ export class GenresService {
     this.oldPlayingGenreId = genreData?.id;
     this.currentPlayingGenre$.next(this.rawCurrentPlayingGenre);
   }
+
+  resetCurrentPlayingGenre() {
+    this.currentPlayingGenre$.next(null);
+    this.rawCurrentPlayingGenre = null;
+    this.oldPlayingGenreId = null;
+  }
 }

@@ -3,11 +3,13 @@
     class="col flex align-items-center w-full"
     style="
       background: linear-gradient(to bottom right, #33f58e, #fff, #33f58e);
-      padding: 0 40px;
-      box-sizing: border-box;
+      box-sizing: border-box !important;
     "
   >
-    <div class="text-container flex gap-3 flex-column">
+    <div
+      class="text-container flex gap-3 flex-column"
+      style="margin-left: 40px"
+    >
       <h1
         style="line-height: 3.2rem; font-size: 2.3rem; font-weight: 500"
         class="m-0"
@@ -58,27 +60,45 @@
         class="w-full text-base"
         appearance="fill"
         floatLabel="never"
-        style="transform: translateY(10px); letter-spacing: 1px"
+        style="letter-spacing: 1px; margin: 10px 0"
       >
-        <input matInput placeholder="Username" class="text-white" />
+        <input
+          matInput
+          placeholder="email"
+          type="email"
+          class="text-white"
+          [formControl]="emailForm"
+        />
+        <mat-error *ngIf="emailForm.hasError('required')"
+          >This field is required</mat-error
+        >
+        <mat-error *ngIf="emailForm.hasError('email')"
+          >Invalid email format</mat-error
+        >
       </mat-form-field>
       <mat-form-field
         class="w-full text-base"
         appearance="fill"
         floatLabel="never"
-        style="transform: translateY(10px); letter-spacing: 1px"
+        style="letter-spacing: 1px; margin: 0 0 10px 0"
       >
         <input
           matInput
-          placeholder="Password"
+          placeholder="password"
           type="password"
           class="text-white"
+          [formControl]="passwordForm"
         />
+        <mat-error
+          *ngIf="passwordForm.touched && passwordForm.hasError('required')"
+          >This field is required</mat-error
+        >
       </mat-form-field>
       <button
         mat-flat-button
-        class="w-full bg-third-color text-white"
-        style="margin-top: 10px"
+        class="w-full bg-third-color"
+        style="font-size: 1rem; letter-spacing: 1px"
+        (click)="login()"
       >
         Login
       </button>

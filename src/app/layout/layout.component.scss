@@ -79,3 +79,21 @@ mat-icon {
     color: rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
 }
+
+::ng-deep {
+    .mat-menu-panel {
+        margin-top: 10px !important;
+        min-width: 180px !important;
+        .mat-menu-content {
+            padding: 0 !important;
+        }
+    }
+    .mat-menu-item {
+        line-height: 40px !important;
+        height: 40px !important;
+    }
+}
+
+.custom-mat-menu-item {
+    padding: 10px 16px;
+}
