@@ -22,6 +22,9 @@ export class ArtistsService {
               image {
                 url
               }
+              profile_picture {
+                url
+              }
             }
           }
         `,

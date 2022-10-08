@@ -38,12 +38,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   bannerData = [
     {
       image: '../../assets/images/banner-1.jpg',
-      title: 'Niggaruto Was here to playing some music motherfucker',
+      title: 'Welcome to StreamIndie. Post your music arts here!',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
     {
       image: '../../assets/images/banner-1.jpg',
-      title: 'Lorem ipsum dolor sit amet consectetur. Lorem',
+      title: 'Explore indie musics, and get a better taste of music!',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
   ];

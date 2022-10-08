@@ -44,6 +44,14 @@ export class AuthService {
                     filesize
                     extension
                   }
+                  profile_picture {
+                    url
+                    id
+                    width
+                    height
+                    filesize
+                    extension
+                  }
                   songs {
                     title
                     id

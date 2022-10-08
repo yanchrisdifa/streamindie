@@ -47,6 +47,7 @@ export class SongsService {
   }
 
   setCurrentPlayingSong(songData: any): void {
+    console.log(songData);
     if (this.oldPlayingSongId === songData?.id) {
       this.rawCurrentPlayingSong = {
         ...this.rawCurrentPlayingSong,

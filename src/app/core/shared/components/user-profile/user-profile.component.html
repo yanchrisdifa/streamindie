@@ -1,0 +1,54 @@
+<div class="banner-container w-full">
+  <div class="banner-content w-full flex p-0 m-0 align-items-center gap-6">
+    <div
+      class="profile-picture-container"
+      style="
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-size: cover;
+      "
+      [ngStyle]="{ 'background-image': getUserProfilePicture() }"
+    ></div>
+    <div class="text-container">
+      <h1
+        class="text-white m-0 p-0"
+        style="font-size: 2.3rem; letter-spacing: 3px"
+      >
+        {{ userData?.name }}
+      </h1>
+      <h3
+        class="p-0"
+        style="
+          font-size: 1.3rem;
+          letter-spacing: 1px;
+          color: #555;
+          margin: 15px 0 15px 0;
+        "
+      >
+        {{ userData?.email }}
+      </h3>
+      <div
+        class="user-type-container"
+        style="
+          padding: 5px 20px;
+          border-radius: 20px;
+          width: fit-content;
+          background-color: #555;
+        "
+      >
+        <p
+          class="m-0 p-0 text-first-color"
+          style="
+            font-size: 1rem;
+            letter-spacing: 1px;
+            width: fit-content;
+            font-weight: 500;
+          "
+        >
+          {{ userData?.userType | titlecase }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

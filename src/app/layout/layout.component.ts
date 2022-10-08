@@ -25,8 +25,8 @@ export class LayoutComponent implements OnInit {
   }
 
   getUserProfilePicture() {
-    return this.userData?.image?.url
-      ? `url(${this.userData.image.url})`
+    return this.userData?.profile_picture?.url
+      ? `url(${this.userData.profile_picture.url})`
       : 'url(../../assets/images/default-user-profile.png)';
   }
 }

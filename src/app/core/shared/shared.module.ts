@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
 
 import { SwiperModule } from 'swiper/angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -17,6 +18,8 @@ import { SongTitleSeparator } from './pipes/song-title-separator.pipe';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserMusicComponent } from './components/user-music/user-music.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -28,13 +31,18 @@ const materialModules = [
   MatDividerModule,
   MatTooltipModule,
   MatMenuModule,
+  MatTableModule,
 ];
 
 const libModule = [SwiperModule, NgScrollbarModule, ReactiveFormsModule];
 
 const pipes = [SongTitleSeparator];
 
-const components = [AudioPlayerComponent];
+const components = [
+  AudioPlayerComponent,
+  UserProfileComponent,
+  UserMusicComponent,
+];
 
 @NgModule({
   declarations: [...pipes, ...components],
