@@ -97,6 +97,7 @@ export class AuthService {
     this.genresService.resetCurrentPlayingGenre();
     this.songsService.resetCurrentPlayingSong();
     localStorage.clear();
+    this.apollo.getClient().resetStore();
     this.router.navigate(['/session/login']);
   }
 

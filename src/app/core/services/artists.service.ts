@@ -12,7 +12,7 @@ export class ArtistsService {
 
   getAllArtists(payload): Observable<artist | artist[]> {
     return this.apollo
-      .query<any[]>({
+      .watchQuery<any[]>({
         query: gql`
           query {
             users(${payload}) {
@@ -28,6 +28,6 @@ export class ArtistsService {
         variables: {},
         fetchPolicy: 'network-only',
       })
-      .pipe(map((resp) => resp.data['users']));
+      .valueChanges.pipe(map((resp) => resp.data['users']));
   }
 }

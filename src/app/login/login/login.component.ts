@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Apollo } from 'apollo-angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GenresService } from 'src/app/core/services/genres.service';
 import { SongsService } from 'src/app/core/services/songs.service';
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private songsService: SongsService,
-    private genresService: GenresService
+    private genresService: GenresService,
+    private apollo: Apollo
   ) {}
 
   ngOnInit(): void {}
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit {
             this.genresService.resetCurrentPlayingGenre();
             this.songsService.resetCurrentPlayingSong();
             localStorage.removeItem('currentPlayingSong');
+            this.apollo.getClient().resetStore();
             this.router.navigate(['/app']);
           }
         });
