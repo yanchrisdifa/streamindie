@@ -1,0 +1,11 @@
+<div
+  class="user-details-container p-6 bg-first-color"
+  style="min-height: 100vh"
+>
+  <app-user-profile [userData]="selectedUserData"></app-user-profile>
+  <div style="margin-top: 40px"></div>
+  <app-user-music
+    [songsData$]="selectedUserSongsData$"
+    [artistId]="selectedUserData?.id"
+  ></app-user-music>
+</div>

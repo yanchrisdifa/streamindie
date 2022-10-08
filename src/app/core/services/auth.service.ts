@@ -101,6 +101,76 @@ export class AuthService {
       .pipe(map((resp: any) => resp.data['authenticateUserWithPassword']));
   }
 
+  getAuthenticatedUser(): Observable<any> {
+    return this.apollo
+      .watchQuery({
+        query: gql`
+          query {
+            authenticatedItem {
+              ... on User {
+                id
+                name
+                email
+                userType
+                profile_picture {
+                  url
+                  id
+                  width
+                  height
+                  filesize
+                  extension
+                }
+                password {
+                  isSet
+                }
+                image {
+                  url
+                  id
+                  width
+                  height
+                  filesize
+                  extension
+                }
+                songs {
+                  title
+                  id
+                  image {
+                    url
+                    id
+                    width
+                    height
+                    filesize
+                    extension
+                  }
+                  postedAt
+                  audio {
+                    url
+                    filename
+                    filesize
+                  }
+                }
+                songsCount
+                genres {
+                  id
+                  name
+                  image {
+                    url
+                    id
+                    width
+                    height
+                    filesize
+                    extension
+                  }
+                }
+                genresCount
+              }
+            }
+          }
+        `,
+      })
+      .valueChanges.pipe(map((resp: any) => resp.data['authenticatedItem']));
+  }
+
   logOut() {
     this.genresService.resetCurrentPlayingGenre();
     this.songsService.resetCurrentPlayingSong();

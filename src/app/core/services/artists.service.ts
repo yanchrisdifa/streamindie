@@ -18,13 +18,59 @@ export class ArtistsService {
             users(${payload}) {
               id
               name
+              email
               userType
+              password {
+                isSet
+              }
               image {
                 url
+                id
+                width
+                height
+                filesize
+                extension
               }
               profile_picture {
                 url
+                id
+                width
+                height
+                filesize
+                extension
               }
+              songs {
+                title
+                id
+                image {
+                  url
+                  id
+                  width
+                  height
+                  filesize
+                  extension
+                }
+                postedAt
+                audio {
+                  url
+                  filename
+                  filesize
+                }
+              }
+              songsCount
+              genres {
+                id
+                name
+                image {
+                  url
+                  id
+                  width
+                  height
+                  filesize
+                  extension
+                }
+              }
+              genresCount
             }
           }
         `,

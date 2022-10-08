@@ -23,6 +23,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./library/library.module').then((m) => m.LibraryModule),
       },
+      {
+        path: 'artist-details',
+        loadChildren: () =>
+          import('./user-details/user-details.module').then(
+            (m) => m.UserDetailsModule
+          ),
+      },
     ],
   },
   {

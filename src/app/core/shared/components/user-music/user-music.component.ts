@@ -18,7 +18,8 @@ import { SubSink } from 'subsink';
   styleUrls: ['./user-music.component.scss'],
 })
 export class UserMusicComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = [
+  displayedColumns: string[] = ['number', 'cover', 'title', 'postDate'];
+  displayedColumnsSelf: string[] = [
     'number',
     'cover',
     'title',
@@ -26,11 +27,12 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
     'action',
   ];
   dataSource = new MatTableDataSource([]);
-  @Input() songsData: any;
+  @Input() songsData$: any;
   @Input() artistId: string;
   currentUserId: string;
   hoveredRowId: string;
   currentPlayingSong: any;
+  isDataExist: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -39,14 +41,26 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.songsData;
     this.currentUserId = this.authService.getLocalStorageUser()?.id;
+    this.getSongsData();
     this.getCurrentPlayingSong();
     this.cdr.detectChanges();
   }
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
+  }
+
+  getSongsData() {
+    this.dataSource.data = [];
+    this.songsData$.subscribe((resp) => {
+      if (resp?.length) {
+        this.isDataExist = true;
+        this.dataSource.data = resp;
+        console.log(this.dataSource);
+        console.log(this.dataSource.data);
+      }
+    });
   }
 
   getSongCover(imageUrl: string) {

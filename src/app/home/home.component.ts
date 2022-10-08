@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import SwiperCore, {
   Navigation,
@@ -43,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
     {
       image: '../../assets/images/banner-1.jpg',
-      title: 'Explore indie musics, and get a better taste of music!',
+      title: 'Explore some musics, and get a better taste of music!',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
   ];
@@ -59,7 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private artistsService: ArtistsService,
     private genresService: GenresService,
-    private songsService: SongsService
+    private songsService: SongsService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
@@ -143,6 +145,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   saveOrUnsaveArtist(index: number): void {
     this.isArtistsSaved[index] = this.isArtistsSaved[index] ? false : true;
+  }
+
+  goToUser(data) {
+    this.route.navigate([`/app/artist-details/${data.id}`]);
   }
 
   ngOnDestroy(): void {

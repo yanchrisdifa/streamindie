@@ -114,8 +114,8 @@
                     {{ artist?.name }}
                   </h1>
                   <a
-                    href="#"
-                    class="text-third-color flex align-items-center gap-2"
+                    (click)="goToUser(artist)"
+                    class="text-third-color flex align-items-center gap-2 see-artist-link"
                     style="letter-spacing: 1px; font-size: 1rem !important"
                     >See Artist <mat-icon>arrow_right_alt</mat-icon></a
                   >
