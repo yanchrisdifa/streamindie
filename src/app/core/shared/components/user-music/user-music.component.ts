@@ -3,11 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
-import { BehaviorSubject, map, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, of } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
@@ -17,9 +18,9 @@ import { SubSink } from 'subsink';
   templateUrl: './user-music.component.html',
   styleUrls: ['./user-music.component.scss'],
 })
-export class UserMusicComponent implements OnInit, AfterViewInit {
+export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['number', 'cover', 'title', 'postDate'];
-  displayedColumnsSelf: string[] = [
+  displayedColumnsCurrentUser: string[] = [
     'number',
     'cover',
     'title',
@@ -33,6 +34,9 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
   hoveredRowId: string;
   currentPlayingSong: any;
   isDataExist: boolean = false;
+  isLoading: boolean = false;
+
+  private subs = new SubSink();
 
   constructor(
     private authService: AuthService,
@@ -41,8 +45,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentUserId = this.authService.getLocalStorageUser()?.id;
-    this.getSongsData();
+    this.getAuthenticatedUser();
     this.getCurrentPlayingSong();
     this.cdr.detectChanges();
   }
@@ -51,16 +54,35 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  getSongsData() {
-    this.dataSource.data = [];
-    this.songsData$.subscribe((resp) => {
-      if (resp?.length) {
-        this.isDataExist = true;
-        this.dataSource.data = resp;
-        console.log(this.dataSource);
-        console.log(this.dataSource.data);
+  getAuthenticatedUser() {
+    this.isLoading = true;
+    this.subs.sink = this.authService.getAuthenticatedUser().subscribe(
+      (resp) => {
+        this.isLoading = false;
+        this.currentUserId = resp?.id;
+        this.getSongsData();
+      },
+      (err) => {
+        this.isLoading = false;
       }
-    });
+    );
+  }
+
+  getSongsData() {
+    this.isLoading = true;
+    this.dataSource.data = [];
+    this.subs.sink = this.songsData$.subscribe(
+      (resp) => {
+        this.isLoading = false;
+        if (resp?.length) {
+          this.isDataExist = true;
+          this.dataSource.data = resp;
+        }
+      },
+      (err) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   getSongCover(imageUrl: string) {
@@ -87,5 +109,9 @@ export class UserMusicComponent implements OnInit, AfterViewInit {
     this.songsService.currentPlayingSong$.subscribe((song) => {
       this.currentPlayingSong = song;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

@@ -14,6 +14,7 @@ import { AuthService } from '../core/services/auth.service';
 export class LayoutComponent implements OnInit {
   userData: any;
   menuList: Menu[];
+  isLoading: boolean = false;
 
   private subs = new SubSink();
 
@@ -25,27 +26,29 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuList = this.menuItems.menus;
-    this.getUserData();
+    this.getAuthenticatedUser();
   }
 
   logOut() {
     this.authService.logOut();
   }
 
+  getAuthenticatedUser() {
+    this.isLoading = true;
+    this.subs.sink = this.authService.getAuthenticatedUser().subscribe(
+      (resp) => {
+        this.userData = resp;
+        this.isLoading = false;
+      },
+      (err) => {
+        this.isLoading = false;
+      }
+    );
+  }
+
   getUserProfilePicture() {
     return this.userData?.profile_picture?.url
       ? `url(${this.userData.profile_picture.url})`
       : 'url(../../assets/images/default-user-profile.png)';
-  }
-
-  getUserData() {
-    this.subs.sink = this.artistsService
-      .getAllArtists(
-        `where:{id:{equals: "${this.authService.getLocalStorageUser()?.id}"}}`
-      )
-      .subscribe((data) => {
-        console.log(data);
-        this.userData = data[0];
-      });
   }
 }

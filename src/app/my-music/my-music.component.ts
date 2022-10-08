@@ -20,8 +20,16 @@ export class MyMusicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userData = this.authService.getLocalStorageUser();
-    this.getSongsData();
+    this.getAuthenticatedUser();
+  }
+
+  getAuthenticatedUser() {
+    this.subs.sink = this.authService
+      .getAuthenticatedUser()
+      .subscribe((resp) => {
+        this.userData = resp;
+        this.getSongsData();
+      });
   }
 
   getSongsData() {

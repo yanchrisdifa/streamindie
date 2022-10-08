@@ -24,15 +24,14 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.subs.sink = this.router.paramMap.subscribe((param) => {
       this.selectedUserId = param.get('id');
+      this.getUserDetails();
     });
-    this.getUserDetails();
   }
 
   getUserDetails() {
     this.subs.sink = this.artistsService
       .getAllArtists(`where:{id:{equals:"${this.selectedUserId}"}}`)
       .subscribe((data) => {
-        console.log(data[0]);
         this.selectedUserData = data[0];
         this.selectedUserSongsData$.next(this.selectedUserData.songs);
       });

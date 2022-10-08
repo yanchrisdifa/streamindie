@@ -8,7 +8,7 @@
     Post a Song
   </button>
 </div>
-<ng-container *ngIf="isDataExist">
+<ng-container *ngIf="isDataExist && !isLoading">
   <table mat-table [dataSource]="dataSource" class="w-full">
     <ng-container matColumnDef="number">
       <th mat-header-cell *matHeaderCellDef>#</th>
@@ -96,7 +96,7 @@
       </td>
     </ng-container>
 
-    <ng-container *ngIf="artistId !== currentUserId">
+    <ng-container *ngIf="!isLoading && artistId !== currentUserId">
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
         mat-row
@@ -105,11 +105,11 @@
         (mouseleave)="setPlayIcon(row, 'out')"
       ></tr>
     </ng-container>
-    <ng-container *ngIf="artistId === currentUserId">
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsSelf"></tr>
+    <ng-container *ngIf="!isLoading && artistId === currentUserId">
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsCurrentUser"></tr>
       <tr
         mat-row
-        *matRowDef="let row; columns: displayedColumnsSelf"
+        *matRowDef="let row; columns: displayedColumnsCurrentUser"
         (mouseenter)="setPlayIcon(row, 'enter')"
         (mouseleave)="setPlayIcon(row, 'out')"
       ></tr>
