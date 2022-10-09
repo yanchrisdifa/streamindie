@@ -90,7 +90,7 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <div class="action-container flex m-0 p-0 gap-4">
-          <p>Edit</p>
+          <p (click)="openDialog(element, 'edit')">Edit</p>
           <p>Delete</p>
         </div>
       </td>

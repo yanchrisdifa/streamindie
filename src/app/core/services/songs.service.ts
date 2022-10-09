@@ -46,6 +46,28 @@ export class SongsService {
       .pipe(map((resp) => resp.data['songs']));
   }
 
+  updateSong(id, data): Observable<any> {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation updateSong($id: ID, $data: SongUpdateInput!) {
+          updateSong(where: { id: $id }, data: $data) {
+            id
+            title
+            image {
+              id
+              url
+              extension
+            }
+          }
+        }
+      `,
+      variables: {
+        id,
+        data,
+      },
+    });
+  }
+
   setCurrentPlayingSong(songData: any): void {
     console.log(songData);
     if (this.oldPlayingSongId === songData?.id) {

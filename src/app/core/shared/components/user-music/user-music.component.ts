@@ -6,12 +6,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { BehaviorSubject, forkJoin, map, of } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
+import { UserMusicDialogComponent } from './user-music-dialog/user-music-dialog.component';
 
 @Component({
   selector: 'app-user-music',
@@ -41,7 +43,8 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private songsService: SongsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -108,6 +111,18 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   getCurrentPlayingSong() {
     this.songsService.currentPlayingSong$.subscribe((song) => {
       this.currentPlayingSong = song;
+    });
+  }
+
+  openDialog(data, type) {
+    this.dialog.open(UserMusicDialogComponent, {
+      disableClose: true,
+      width: '600px',
+      autoFocus: false,
+      data: {
+        type: type,
+        data: data,
+      },
     });
   }
 

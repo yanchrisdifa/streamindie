@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserMusicComponent } from './components/user-music/user-music.component';
+import { UserMusicDialogComponent } from './components/user-music/user-music-dialog/user-music-dialog.component';
 
 const materialModules = [
   MatSidenavModule,
@@ -44,6 +45,7 @@ const components = [
   AudioPlayerComponent,
   UserProfileComponent,
   UserMusicComponent,
+  UserMusicDialogComponent,
 ];
 
 @NgModule({

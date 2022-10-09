@@ -26,3 +26,11 @@ $third-color:#33f58e;
 .text-white {
   color: #fff;
 }
+
+::ng-deep {
+  mat-dialog-container {
+      background-color: $first-color !important;
+      border-bottom: 3px solid $third-color;
+      color: #555 !important;
+  }
+}

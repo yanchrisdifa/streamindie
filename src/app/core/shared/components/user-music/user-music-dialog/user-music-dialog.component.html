@@ -1,0 +1,119 @@
+<div class="user-music-dialog-container">
+  <div class="header w-full flex m-0 p-0 justify-content-between">
+    <ng-container *ngIf="data?.type === 'edit'">
+      <h2 class="m-0">Edit Music</h2>
+    </ng-container>
+    <ng-container *ngIf="data?.type === 'add'">
+      <h2 class="m-0">Add Music</h2>
+    </ng-container>
+    <mat-icon (click)="closeDialog()" class="close-icon">close</mat-icon>
+  </div>
+  <div
+    class="w-full"
+    style="height: 1px; background-color: #555; margin: 10px 0"
+  ></div>
+  <div class="content" [formGroup]="dialogForm">
+    <div class="song-title-container">
+      <p
+        style="
+          font-size: 1.1rem;
+          margin: 20px 0 10px 0 !important;
+          letter-spacing: 1px !important;
+        "
+        class="m-0 p-0"
+      >
+        Song title
+      </p>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="letter-spacing: 1px"
+      >
+        <input
+          matInput
+          placeholder="Song title (artist name - song title)"
+          formControlName="title"
+        />
+      </mat-form-field>
+    </div>
+    <div class="song-cover-container">
+      <p
+        style="
+          font-size: 1.1rem;
+          margin: 0 0 10px 0 !important;
+          letter-spacing: 1px !important;
+        "
+        class="m-0 p-0"
+      >
+        Song Cover
+      </p>
+      <div
+        class="cover-image-container bg-second-color"
+        style="
+          width: 200px;
+          height: 200px;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <img
+          [src]="data?.data?.image?.url"
+          style="
+            max-width: 100% !important;
+            max-height: 100% !important;
+            width: 100%;
+            height: 100%;
+          "
+          #songCover
+        />
+        <div
+          class="song-cover-overlay flex m-0 p-0 align-items-center justify-content-center"
+          style="
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+          "
+        >
+          <mat-icon
+            style="color: #fff"
+            matTooltip="Insert an Image"
+            (click)="songCoverFileInput.click()"
+          >
+            insert_photo</mat-icon
+          >
+        </div>
+        <input
+          type="file"
+          style="display: none !important"
+          accept="image/jpg, image/png, image/jpeg"
+          (change)="loadCoverPreview($event.target)"
+          #songCoverFileInput
+        />
+      </div>
+    </div>
+  </div>
+  <div class="action" style="margin-top: 20px">
+    <button
+      mat-flat-button
+      class="bg-third-color"
+      style="border-radius: 2px"
+      (click)="updateSong()"
+    >
+      Save
+    </button>
+    <button
+      mat-flat-button
+      style="
+        background-color: #555 !important;
+        margin-left: 20px !important;
+        border-radius: 2px;
+      "
+      (click)="closeDialog()"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

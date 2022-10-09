@@ -1,0 +1,32 @@
+::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+input {
+    color: #fff !important;
+    letter-spacing: 1px !important;
+}
+
+.close-icon {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.song-cover-overlay {
+    transition: .3s;
+    background-color: rgba(0, 0, 0, 0);
+    mat-icon {
+        transition: .3s;
+        opacity: 0 !important;
+        transform: scale(1.4);
+    }
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        mat-icon {
+            opacity: 1 !important;
+            cursor: pointer;
+        }
+    }
+}

@@ -9,6 +9,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { environment } from 'src/environments/environment';
 import { setContext } from '@apollo/client/link/context';
 import { HttpClientModule } from '@angular/common/http';
+import { createUploadLink } from 'apollo-upload-client';
 
 const uri = environment.apiUrl; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
@@ -32,7 +33,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     }
   });
 
-  const link = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
+  const link = ApolloLink.from([basic, auth, createUploadLink({ uri: uri })]);
   const cache = new InMemoryCache();
 
   return {
