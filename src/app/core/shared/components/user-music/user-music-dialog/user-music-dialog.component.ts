@@ -14,6 +14,8 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
+import * as _ from 'lodash';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-user-music-dialog',
@@ -23,9 +25,12 @@ import { SubSink } from 'subsink';
 export class UserMusicDialogComponent implements OnInit, OnDestroy {
   @ViewChild('songCover') songCover: ElementRef;
   @ViewChild('songCoverFileInput') songCoverFileInput: ElementRef;
-  updatedSongCover: File;
+  updatedSongCover: File = null;
 
   dialogForm: UntypedFormGroup;
+  dialogFormOldVal;
+
+  isDataUpdated: boolean = false;
 
   private subs = new SubSink();
 
@@ -44,10 +49,13 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   initForm() {
     this.dialogForm = this.fb.group({
       title: [this.data?.data?.title, Validators.required],
-      image: this.fb.group({
-        upload: [null, Validators.required],
-      }),
     });
+    this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
+    this.subs.sink = this.dialogForm.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((resp) => {
+        this.isDataUpdated = !_.isEqual(this.dialogFormOldVal, resp);
+      });
   }
 
   closeDialog() {
@@ -63,7 +71,8 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.dialogForm.get('image').get('upload').patchValue(target?.files[0]);
+    this.updatedSongCover = target?.files[0];
+    this.isDataUpdated = true;
     this.songCover.nativeElement.src = URL.createObjectURL(target.files[0]);
     this.songCoverFileInput.nativeElement.onload = () => {
       URL.revokeObjectURL(this.songCover.nativeElement.src);
@@ -71,14 +80,28 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   }
 
   updateSong() {
-    console.log(this.dialogForm.value);
     if (this.data?.data?.id && this.dialogForm.valid) {
       this.subs.sink = this.songsService
-        .updateSong(this.data?.data?.id, this.dialogForm.value)
+        .updateSong(this.data?.data?.id, this.cleanPayload())
         .subscribe((resp) => {
           this.dialogref.close();
         });
     }
+  }
+
+  cleanPayload() {
+    let payload: any = {};
+    if (this.updatedSongCover) {
+      payload.image = {
+        upload: this.updatedSongCover,
+      };
+    }
+    Object.keys(this.dialogFormOldVal).forEach((key) => {
+      if (this.dialogFormOldVal[key] !== this.dialogForm.value[key]) {
+        payload[`${key}`] = this.dialogForm.value[key];
+      }
+    });
+    return payload;
   }
 
   ngOnDestroy(): void {

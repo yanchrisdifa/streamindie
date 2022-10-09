@@ -101,6 +101,8 @@
       class="bg-third-color"
       style="border-radius: 2px"
       (click)="updateSong()"
+      [disabled]="!isDataUpdated"
+      [ngStyle]="{ opacity: !isDataUpdated ? 0.2 : 1 }"
     >
       Save
     </button>
