@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SwiperModule } from 'swiper/angular';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -35,6 +36,7 @@ const materialModules = [
   MatMenuModule,
   MatTableModule,
   MatDialogModule,
+  MatAutocompleteModule,
 ];
 
 const libModule = [SwiperModule, NgScrollbarModule, ReactiveFormsModule];

@@ -11,7 +11,11 @@ export class UserProfileComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setTimeout(() => {
+      console.log(this.userData);
+    }, 2000);
+  }
 
   getUserProfilePicture() {
     return this.userData?.profile_picture?.url

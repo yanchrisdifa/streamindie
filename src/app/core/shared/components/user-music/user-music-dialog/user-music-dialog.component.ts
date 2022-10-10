@@ -16,6 +16,7 @@ import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
 import * as _ from 'lodash';
 import { distinctUntilChanged } from 'rxjs';
+import { GenresService } from 'src/app/core/services/genres.service';
 
 @Component({
   selector: 'app-user-music-dialog',
@@ -32,6 +33,9 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
 
   isDataUpdated: boolean = false;
 
+  filteredGenresData: any;
+  isGenreOptionClicked: boolean = false;
+
   private subs = new SubSink();
 
   constructor(
@@ -42,19 +46,39 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data?.data);
     this.initForm();
   }
 
   initForm() {
     this.dialogForm = this.fb.group({
-      title: [this.data?.data?.title, Validators.required],
+      title: [
+        this.data?.data?.title ? this.data?.data?.title : null,
+        Validators.required,
+      ],
+      genre: [
+        this.data?.data?.genre?.id ? this.data?.data?.genre?.id : null,
+        Validators.required,
+      ],
     });
     this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
-    this.subs.sink = this.dialogForm.valueChanges
-      .pipe(distinctUntilChanged())
+    this.initAutocompleteFilter();
+  }
+
+  initAutocompleteFilter() {
+    this.subs.sink = this.dialogForm
+      .get('genre')
+      .valueChanges.pipe(distinctUntilChanged())
       .subscribe((resp) => {
-        this.isDataUpdated = !_.isEqual(this.dialogFormOldVal, resp);
+        if (this.isGenreOptionClicked) {
+          resp = this.displayGenreName(resp);
+        }
+        this.isGenreOptionClicked = false;
+        this.filteredGenresData = this.data?.genresData?.filter((genre) => {
+          return genre?.name
+            .trim()
+            .toLowerCase()
+            .includes(resp.trim().toLowerCase());
+        });
       });
   }
 
@@ -102,6 +126,17 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       }
     });
     return payload;
+  }
+
+  displayGenreName(id) {
+    if (this.data?.genresData?.length) {
+      const temp = this.data?.genresData?.find((genre) => genre?.id === id);
+      return temp?.name;
+    }
+  }
+
+  setGenreOptionClicked() {
+    this.isGenreOptionClicked = true;
   }
 
   ngOnDestroy(): void {

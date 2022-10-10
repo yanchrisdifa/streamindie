@@ -37,6 +37,43 @@
         />
       </mat-form-field>
     </div>
+    <div class="song-genre-container">
+      <p
+        style="
+          font-size: 1.1rem;
+          margin: 10px 0 !important;
+          letter-spacing: 1px !important;
+        "
+        class="m-0 p-0"
+      >
+        Song genre
+      </p>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="letter-spacing: 1px"
+      >
+        <input
+          matInput
+          placeholder="Song genre"
+          formControlName="genre"
+          [matAutocomplete]="genreDropdown"
+        />
+        <mat-autocomplete
+          #genreDropdown="matAutocomplete"
+          [displayWith]="displayGenreName.bind(this)"
+        >
+          <mat-option
+            (onSelectionChange)="setGenreOptionClicked()"
+            *ngFor="let genre of filteredGenresData"
+            [value]="genre?.id"
+          >
+            {{ genre?.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
     <div class="song-cover-container">
       <p
         style="

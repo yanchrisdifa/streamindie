@@ -51,7 +51,6 @@
       </td>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="cover">
       <th mat-header-cell *matHeaderCellDef>Cover</th>
       <td mat-cell *matCellDef="let element">
@@ -70,7 +69,6 @@
       </td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>
       <td mat-cell *matCellDef="let element">
@@ -78,7 +76,13 @@
       </td>
     </ng-container>
 
-    <!-- Symbol Column -->
+    <ng-container matColumnDef="genre">
+      <th mat-header-cell *matHeaderCellDef>Genre</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.genre?.name }}
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="postDate">
       <th mat-header-cell *matHeaderCellDef>Post Date</th>
       <td mat-cell *matCellDef="let element">
@@ -90,8 +94,45 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <div class="action-container flex m-0 p-0 gap-4">
-          <p (click)="openDialog(element, 'edit')">Edit</p>
-          <p>Delete</p>
+          <button
+            mat-flat-button
+            style="background-color: transparent !important"
+            class="p-0"
+            [disabled]="isGenreLoading"
+            (click)="openDialog(element, 'edit')"
+            [disableRipple]="true"
+          >
+            <p
+              style="
+                color: #aaa;
+                width: fit-content !important;
+                font-size: 1rem;
+                letter-spacing: 1px;
+              "
+              class="m-0 p-0"
+            >
+              Edit
+            </p>
+          </button>
+          <button
+            mat-flat-button
+            style="background-color: transparent !important"
+            class="p-0"
+            [disabled]="isGenreLoading"
+            [disableRipple]="true"
+          >
+            <p
+              style="
+                color: #aaa;
+                width: fit-content !important;
+                font-size: 1rem;
+                letter-spacing: 1px;
+              "
+              class="m-0 p-0"
+            >
+              Delete
+            </p>
+          </button>
         </div>
       </td>
     </ng-container>

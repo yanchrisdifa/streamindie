@@ -35,4 +35,14 @@ input {
     .mat-button-disabled {
         color: rgba(0, 0, 0, 0.87) !important;
     }
+    .mat-autocomplete-panel {
+        background-color: rgba(68, 68, 68, 1) !important;
+    }
+    .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover) {
+        background-color: rgba(68, 68, 68, 1) !important;
+    }
+}
+
+mat-option {
+    color: #fff !important;
 }

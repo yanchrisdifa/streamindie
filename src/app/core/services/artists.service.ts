@@ -42,6 +42,10 @@ export class ArtistsService {
               songs {
                 title
                 id
+                genre {
+                  id
+                  name
+                }
                 image {
                   url
                   id

@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { BehaviorSubject, forkJoin, map, of } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { GenresService } from 'src/app/core/services/genres.service';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
 import { UserMusicDialogComponent } from './user-music-dialog/user-music-dialog.component';
@@ -21,11 +22,18 @@ import { UserMusicDialogComponent } from './user-music-dialog/user-music-dialog.
   styleUrls: ['./user-music.component.scss'],
 })
 export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
-  displayedColumns: string[] = ['number', 'cover', 'title', 'postDate'];
+  displayedColumns: string[] = [
+    'number',
+    'cover',
+    'title',
+    'genre',
+    'postDate',
+  ];
   displayedColumnsCurrentUser: string[] = [
     'number',
     'cover',
     'title',
+    'genre',
     'postDate',
     'action',
   ];
@@ -37,19 +45,23 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlayingSong: any;
   isDataExist: boolean = false;
   isLoading: boolean = false;
+  isGenreLoading: boolean = false;
 
   private subs = new SubSink();
+  genresData: any;
 
   constructor(
     private authService: AuthService,
     private songsService: SongsService,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private genresService: GenresService
   ) {}
 
   ngOnInit(): void {
     this.getAuthenticatedUser();
     this.getCurrentPlayingSong();
+    this.getAllGenres();
     this.cdr.detectChanges();
   }
 
@@ -80,6 +92,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
         if (resp?.length) {
           this.isDataExist = true;
           this.dataSource.data = resp;
+          console.log(resp);
         }
       },
       (err) => {
@@ -114,6 +127,16 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  getAllGenres() {
+    this.isGenreLoading = true;
+    this.subs.sink = this.genresService
+      .getAllGenres('take: 10')
+      .subscribe((resp) => {
+        this.genresData = resp;
+        this.isGenreLoading = false;
+      });
+  }
+
   openDialog(data, type) {
     this.dialog.open(UserMusicDialogComponent, {
       disableClose: true,
@@ -122,6 +145,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         type: type,
         data: data,
+        genresData: this.genresData,
       },
     });
   }
