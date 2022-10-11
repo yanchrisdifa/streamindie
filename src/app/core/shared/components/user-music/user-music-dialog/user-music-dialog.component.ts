@@ -36,6 +36,16 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   filteredGenresData: any;
   isGenreOptionClicked: boolean = false;
 
+  filteredValues: any = {
+    title: null,
+    image: null,
+    genre: {
+      connect: {
+        id: null,
+      },
+    },
+  };
+
   private subs = new SubSink();
 
   constructor(
@@ -108,7 +118,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       this.subs.sink = this.songsService
         .updateSong(this.data?.data?.id, this.cleanPayload())
         .subscribe((resp) => {
-          this.dialogref.close();
+          this.dialogref.close({ isSaved: true });
         });
     }
   }
@@ -122,7 +132,15 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     }
     Object.keys(this.dialogFormOldVal).forEach((key) => {
       if (this.dialogFormOldVal[key] !== this.dialogForm.value[key]) {
-        payload[`${key}`] = this.dialogForm.value[key];
+        if (key === 'title') {
+          payload[`${key}`] = this.dialogForm.value[key];
+        } else if (key === 'genre') {
+          payload.genre = {
+            connect: {
+              id: this.dialogForm.value[key],
+            },
+          };
+        }
       }
     });
     return payload;

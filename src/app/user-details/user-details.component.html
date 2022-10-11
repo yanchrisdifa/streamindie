@@ -4,8 +4,5 @@
 >
   <app-user-profile [userData]="selectedUserData"></app-user-profile>
   <div style="margin-top: 40px"></div>
-  <app-user-music
-    [songsData$]="selectedUserSongsData$"
-    [artistId]="selectedUserId"
-  ></app-user-music>
+  <app-user-music [artistId]="selectedUserId"></app-user-music>
 </div>

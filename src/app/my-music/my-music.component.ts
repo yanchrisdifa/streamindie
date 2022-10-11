@@ -10,33 +10,7 @@ import { SongsService } from '../core/services/songs.service';
   styleUrls: ['./my-music.component.scss'],
 })
 export class MyMusicComponent implements OnInit {
-  songsData$: BehaviorSubject<any> = new BehaviorSubject(null);
-  userData: any;
-  private subs = new SubSink();
+  constructor(private authService: AuthService) {}
 
-  constructor(
-    private authService: AuthService,
-    private songsService: SongsService
-  ) {}
-
-  ngOnInit(): void {
-    this.getAuthenticatedUser();
-  }
-
-  getAuthenticatedUser() {
-    this.subs.sink = this.authService
-      .getAuthenticatedUser()
-      .subscribe((resp) => {
-        this.userData = resp;
-        this.getSongsData();
-      });
-  }
-
-  getSongsData() {
-    this.subs.sink = this.songsService
-      .getAllSongs(`where:{artists:{id:{equals:"${this.userData?.id}"}}}`)
-      .subscribe((resp) => {
-        this.songsData$.next(resp);
-      });
-  }
+  ngOnInit(): void {}
 }

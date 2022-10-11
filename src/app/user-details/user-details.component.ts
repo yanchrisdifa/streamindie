@@ -12,7 +12,6 @@ import { ArtistsService } from '../core/services/artists.service';
 export class UserDetailsComponent implements OnInit {
   selectedUserId: string;
   selectedUserData: any;
-  selectedUserSongsData$: BehaviorSubject<any> = new BehaviorSubject(null);
 
   private subs = new SubSink();
 
@@ -33,7 +32,6 @@ export class UserDetailsComponent implements OnInit {
       .getAllArtists(`where:{id:{equals:"${this.selectedUserId}"}}`)
       .subscribe((data) => {
         this.selectedUserData = data[0];
-        this.selectedUserSongsData$.next(this.selectedUserData.songs);
       });
   }
 }

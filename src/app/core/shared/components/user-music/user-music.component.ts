@@ -38,7 +38,6 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
     'action',
   ];
   dataSource = new MatTableDataSource([]);
-  @Input() songsData$: any;
   @Input() artistId: string;
   currentUserId: string;
   hoveredRowId: string;
@@ -84,21 +83,18 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getSongsData() {
+    this.artistId = this.artistId || this.currentUserId;
     this.isLoading = true;
     this.dataSource.data = [];
-    this.subs.sink = this.songsData$.subscribe(
-      (resp) => {
-        this.isLoading = false;
+    this.subs.sink = this.songsService
+      .getAllSongs(`where:{artists:{id:{equals:"${this.artistId}"}}}`)
+      .subscribe((resp) => {
         if (resp?.length) {
           this.isDataExist = true;
+          this.isLoading = false;
           this.dataSource.data = resp;
-          console.log(resp);
         }
-      },
-      (err) => {
-        this.isLoading = false;
-      }
-    );
+      });
   }
 
   getSongCover(imageUrl: string) {
@@ -138,16 +134,24 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDialog(data, type) {
-    this.dialog.open(UserMusicDialogComponent, {
-      disableClose: true,
-      width: '600px',
-      autoFocus: false,
-      data: {
-        type: type,
-        data: data,
-        genresData: this.genresData,
-      },
-    });
+    this.dialog
+      .open(UserMusicDialogComponent, {
+        disableClose: true,
+        width: '600px',
+        autoFocus: false,
+        data: {
+          type: type,
+          data: data,
+          genresData: this.genresData,
+        },
+      })
+      .afterClosed()
+      .subscribe((resp) => {
+        console.log(resp);
+        if (resp.isSaved) {
+          this.getSongsData();
+        }
+      });
   }
 
   ngOnDestroy(): void {
