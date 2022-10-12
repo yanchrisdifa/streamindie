@@ -1,10 +1,10 @@
 <div class="user-music-dialog-container">
   <div class="header w-full flex m-0 p-0 justify-content-between">
     <ng-container *ngIf="data?.type === 'edit'">
-      <h2 class="m-0">Edit Music</h2>
+      <h2 class="m-0">Edit Song</h2>
     </ng-container>
     <ng-container *ngIf="data?.type === 'add'">
-      <h2 class="m-0">Add Music</h2>
+      <h2 class="m-0">Post a Song</h2>
     </ng-container>
     <mat-icon (click)="closeDialog()" class="close-icon">close</mat-icon>
   </div>
@@ -59,13 +59,14 @@
           placeholder="Song genre"
           formControlName="genre"
           [matAutocomplete]="genreDropdown"
+          (keyup)="setGenreOptionClicked(false)"
         />
         <mat-autocomplete
           #genreDropdown="matAutocomplete"
           [displayWith]="displayGenreName.bind(this)"
         >
           <mat-option
-            (onSelectionChange)="setGenreOptionClicked()"
+            (onSelectionChange)="setGenreOptionClicked(true)"
             *ngFor="let genre of filteredGenresData"
             [value]="genre?.id"
           >
@@ -74,61 +75,104 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <div class="song-cover-container">
-      <p
-        style="
-          font-size: 1.1rem;
-          margin: 0 0 10px 0 !important;
-          letter-spacing: 1px !important;
-        "
-        class="m-0 p-0"
-      >
-        Song Cover
-      </p>
-      <div
-        class="cover-image-container bg-second-color"
-        style="
-          width: 200px;
-          height: 200px;
-          position: relative;
-          overflow: hidden;
-        "
-      >
-        <img
-          [src]="data?.data?.image?.url"
+    <div class="grid m-0 p-0">
+      <div class="song-cover-container col-6">
+        <p
           style="
-            max-width: 100% !important;
-            max-height: 100% !important;
-            width: 100%;
-            height: 100%;
+            font-size: 1.1rem;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: 1px !important;
           "
-          #songCover
-        />
+          class="m-0 p-0"
+        >
+          Song Cover
+        </p>
         <div
-          class="song-cover-overlay flex m-0 p-0 align-items-center justify-content-center"
+          class="cover-image-container bg-second-color"
           style="
-            position: absolute !important;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
           "
         >
-          <mat-icon
-            style="color: #fff"
-            matTooltip="Insert an Image"
-            (click)="songCoverFileInput.click()"
+          <img
+            [ngStyle]="{
+              display:
+                data?.data?.image?.url || updatedSongCover ? 'block' : 'none'
+            }"
+            [src]="data?.data?.image?.url"
+            style="
+              max-width: 100% !important;
+              max-height: 100% !important;
+              width: 100%;
+              height: 100%;
+            "
+            #songCover
+          />
+          <div
+            class="song-cover-overlay flex m-0 p-0 align-items-center justify-content-center"
+            style="
+              position: absolute !important;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+            "
           >
-            insert_photo</mat-icon
-          >
+            <mat-icon
+              style="color: #fff"
+              matTooltip="Insert an Image"
+              (click)="songCoverFileInput.click()"
+            >
+              insert_photo</mat-icon
+            >
+          </div>
+          <input
+            type="file"
+            style="display: none !important"
+            accept="image/jpg, image/png, image/jpeg"
+            (change)="loadCoverPreview($event.target)"
+            #songCoverFileInput
+          />
         </div>
-        <input
-          type="file"
-          style="display: none !important"
-          accept="image/jpg, image/png, image/jpeg"
-          (change)="loadCoverPreview($event.target)"
-          #songCoverFileInput
-        />
+      </div>
+      <div class="song-audio-container col-6" *ngIf="data?.type === 'add'">
+        <p
+          style="
+            font-size: 1.1rem;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: 1px !important;
+          "
+          class="m-0 p-0"
+        >
+          Song Audio
+        </p>
+        <div class="w-full m-0 p-0">
+          <button
+            mat-flat-button
+            class="w-full bg-second-color"
+            style="letter-spacing: 1px; color: #555 !important"
+            (click)="songAudioInput.click()"
+          >
+            <ng-container *ngIf="!updatedSongAudio">
+              <mat-icon>add</mat-icon> insert your song audio
+            </ng-container>
+            <ng-container *ngIf="updatedSongAudio">
+              <mat-icon>edit</mat-icon> change your song audio
+            </ng-container>
+          </button>
+          <p *ngIf="updatedSongAudio?.name" style="margin-top: 10px">
+            {{ updatedSongAudio?.name }}
+          </p>
+          <input
+            type="file"
+            style="display: none !important"
+            accept="audio/mp3, audio/m4a, audio/mpeg"
+            (change)="loadAudio($event.target)"
+            #songAudioInput
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -137,8 +181,7 @@
       mat-flat-button
       class="bg-third-color"
       style="border-radius: 2px"
-      (click)="updateSong()"
-      [ngStyle]="{ opacity: !isDataUpdated ? 0.2 : 1 }"
+      (click)="saveSong()"
     >
       Save
     </button>

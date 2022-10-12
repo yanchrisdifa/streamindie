@@ -69,6 +69,27 @@ export class SongsService {
     });
   }
 
+  createSong(data): Observable<any> {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation createSong($data: SongCreateInput!) {
+          createSong(data: $data) {
+            id
+            title
+            image {
+              id
+              url
+              extension
+            }
+          }
+        }
+      `,
+      variables: {
+        data,
+      },
+    });
+  }
+
   setCurrentPlayingSong(songData: any): void {
     if (this.oldPlayingSongId === songData?.id) {
       this.rawCurrentPlayingSong = {

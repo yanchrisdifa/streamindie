@@ -133,7 +133,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  openDialog(data, type) {
+  openDialog(type, data?) {
     this.dialog
       .open(UserMusicDialogComponent, {
         disableClose: true,
@@ -143,12 +143,13 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
           type: type,
           data: data,
           genresData: this.genresData,
+          currentArtistId: this.artistId || this.currentUserId,
         },
       })
       .afterClosed()
       .subscribe((resp) => {
         console.log(resp);
-        if (resp.isSaved) {
+        if (resp?.isSaved) {
           this.getSongsData();
         }
       });

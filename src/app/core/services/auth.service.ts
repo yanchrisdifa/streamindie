@@ -101,6 +101,16 @@ export class AuthService {
       .pipe(map((resp: any) => resp.data['authenticateUserWithPassword']));
   }
 
+  endSession(): Observable<any> {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation {
+          endSession
+        }
+      `,
+    });
+  }
+
   getAuthenticatedUser(): Observable<any> {
     return this.apollo
       .watchQuery({

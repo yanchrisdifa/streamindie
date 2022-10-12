@@ -1,5 +1,5 @@
 ::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: #555;
     letter-spacing: 1px;
 }
 
@@ -23,7 +23,7 @@ input {
         transform: scale(1.4);
     }
     &:hover {
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.6);
         mat-icon {
             opacity: 1 !important;
             cursor: pointer;
@@ -31,15 +31,23 @@ input {
     }
 }
 
-::ng-deep {
-    .mat-button-disabled {
-        color: rgba(0, 0, 0, 0.87) !important;
-    }
-    .mat-autocomplete-panel {
-        background-color: rgba(68, 68, 68, 1) !important;
-    }
-    .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover) {
-        background-color: rgba(68, 68, 68, 1) !important;
+.user-music-dialog-container {
+    ::ng-deep {
+        .mat-button-disabled {
+            color: rgba(0, 0, 0, 0.87) !important;
+        }
+        .mat-autocomplete-panel {
+            background-color: rgba(68, 68, 68, 1) !important;
+        }
+        .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover) {
+            background-color: rgba(68, 68, 68, 1) !important;
+        }
+        .mat-simple-snackbar-action {
+            color: #33f58e !important;
+        }
+        .mat-form-field-flex {
+            background-color: #222 !important;
+        }
     }
 }
 

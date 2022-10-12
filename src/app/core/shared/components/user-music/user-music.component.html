@@ -3,7 +3,12 @@
   style="margin-bottom: 20px !important"
   *ngIf="artistId === currentUserId"
 >
-  <button mat-flat-button class="bg-third-color" style="letter-spacing: 1px">
+  <button
+    mat-flat-button
+    class="bg-third-color"
+    style="letter-spacing: 1px"
+    (click)="openDialog('add')"
+  >
     <mat-icon>add</mat-icon>
     Post a Song
   </button>
@@ -99,7 +104,7 @@
             style="background-color: transparent !important"
             class="p-0"
             [disabled]="isGenreLoading"
-            (click)="openDialog(element, 'edit')"
+            (click)="openDialog('edit', element)"
             [disableRipple]="true"
           >
             <p

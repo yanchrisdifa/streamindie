@@ -15,8 +15,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { SubSink } from 'subsink';
 import * as _ from 'lodash';
-import { distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 import { GenresService } from 'src/app/core/services/genres.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-music-dialog',
@@ -27,6 +28,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   @ViewChild('songCover') songCover: ElementRef;
   @ViewChild('songCoverFileInput') songCoverFileInput: ElementRef;
   updatedSongCover: File = null;
+  updatedSongAudio: File = null;
 
   dialogForm: UntypedFormGroup;
   dialogFormOldVal;
@@ -35,6 +37,8 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
 
   filteredGenresData: any;
   isGenreOptionClicked: boolean = false;
+
+  updatedVal: string[] = [];
 
   filteredValues: any = {
     title: null,
@@ -52,7 +56,8 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogref: MatDialogRef<UserMusicDialogComponent>,
     private fb: UntypedFormBuilder,
-    private songsService: SongsService
+    private songsService: SongsService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -71,18 +76,54 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       ],
     });
     this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
-    this.initAutocompleteFilter();
+    this.subsFormValueChanges();
+    this.handleDisableButton();
   }
 
-  initAutocompleteFilter() {
+  subsFormValueChanges() {
     this.subs.sink = this.dialogForm
-      .get('genre')
+      .get('title')
       .valueChanges.pipe(distinctUntilChanged())
       .subscribe((resp) => {
-        if (this.isGenreOptionClicked) {
-          resp = this.displayGenreName(resp);
+        if (this.dialogFormOldVal?.title !== resp) {
+          this.updatedVal.push('title');
+          this.updatedVal = _.uniq(this.updatedVal);
+        } else {
+          const index = this.updatedVal.findIndex(
+            (keyUpdate) => keyUpdate === 'title'
+          );
+          if (index >= 0) {
+            this.updatedVal.splice(index, 1);
+          }
         }
-        this.isGenreOptionClicked = false;
+      });
+    this.subs.sink = this.dialogForm
+      .get('genre')
+      .valueChanges.pipe(debounceTime(200), distinctUntilChanged())
+      .subscribe((resp) => {
+        if (this.isGenreOptionClicked) {
+          const tempGenre = this.data?.genresData?.find((genre) => {
+            return genre?.id === resp;
+          });
+          resp = this.displayGenreName(resp);
+          if (tempGenre?.id !== this.dialogFormOldVal.genre) {
+            this.updatedVal.push('genre');
+          } else {
+            const index = this.updatedVal.findIndex(
+              (keyUpdate) => keyUpdate === 'genre'
+            );
+            if (index >= 0) {
+              this.updatedVal.splice(index, 1);
+            }
+          }
+        } else {
+          const index = this.updatedVal.findIndex(
+            (keyUpdate) => keyUpdate === 'genre'
+          );
+          if (index >= 0) {
+            this.updatedVal.splice(index, 1);
+          }
+        }
         this.filteredGenresData = this.data?.genresData?.filter((genre) => {
           return genre?.name
             .trim()
@@ -113,13 +154,89 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     };
   }
 
-  updateSong() {
-    if (this.data?.data?.id && this.dialogForm.valid) {
-      this.subs.sink = this.songsService
-        .updateSong(this.data?.data?.id, this.cleanPayload())
-        .subscribe((resp) => {
-          this.dialogref.close({ isSaved: true });
+  loadAudio(target: HTMLInputElement) {
+    const allowedFileExtension = ['audio/mp3', 'audio/m4a', 'audio/mpeg'];
+    if (
+      !allowedFileExtension.includes(target?.files[0]?.type) ||
+      !target.files.length
+    ) {
+      return;
+    }
+    this.updatedSongAudio = target?.files[0];
+  }
+
+  handleDisableButton() {
+    this.subs.sink = this.dialogForm.valueChanges
+      .pipe(distinctUntilChanged())
+      .subscribe((data) => {
+        this.isDataUpdated = this.updatedVal?.length ? true : false;
+      });
+  }
+
+  saveSong() {
+    if (!this.dialogForm.valid) {
+      this._snackBar.open('Please fill all the required fields', 'Ok', {
+        duration: 3000,
+      });
+      return;
+    } else if (this.dialogForm.valid && !this.isGenreOptionClicked) {
+      this._snackBar.open(
+        'Please select your song genre from the dropdown',
+        'Ok',
+        {
+          duration: 3000,
+        }
+      );
+      return;
+    }
+    if (this.data?.type === 'edit') {
+      if (this.data?.data?.id && this.dialogForm.valid && this.isDataUpdated) {
+        this.subs.sink = this.songsService
+          .updateSong(this.data?.data?.id, this.cleanPayload())
+          .subscribe((resp) => {
+            this.dialogref.close({ isSaved: true });
+          });
+      } else if (!this.isDataUpdated) {
+        this._snackBar.open('Please update the data before you save', 'Ok', {
+          duration: 3000,
         });
+      }
+    } else if (this.data?.type === 'add') {
+      if (
+        this.dialogForm.valid &&
+        this.updatedSongCover &&
+        this.updatedSongAudio
+      ) {
+        this.subs.sink = this.songsService
+          .createSong(this.cleanPayload())
+          .subscribe((resp) => {
+            this.dialogref.close({ isSaved: true });
+          });
+      } else if (!this.updatedSongCover && !this.updatedSongAudio) {
+        this._snackBar.open(
+          'Please insert your song cover and audio before you save',
+          'Ok',
+          {
+            duration: 3000,
+          }
+        );
+      } else if (!this.updatedSongCover) {
+        this._snackBar.open(
+          'Please insert your song cover before you save',
+          'Ok',
+          {
+            duration: 3000,
+          }
+        );
+      } else if (!this.updatedSongAudio) {
+        this._snackBar.open(
+          'Please insert your song audio before you save',
+          'Ok',
+          {
+            duration: 3000,
+          }
+        );
+      }
     }
   }
 
@@ -129,6 +246,19 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       payload.image = {
         upload: this.updatedSongCover,
       };
+    }
+    if (this.data?.type === 'add') {
+      console.log(this.data?.currentArtistId);
+      payload.artists = {
+        connect: {
+          id: this.data?.currentArtistId,
+        },
+      };
+      if (this.updatedSongAudio) {
+        payload.audio = {
+          upload: this.updatedSongAudio,
+        };
+      }
     }
     Object.keys(this.dialogFormOldVal).forEach((key) => {
       if (this.dialogFormOldVal[key] !== this.dialogForm.value[key]) {
@@ -153,8 +283,8 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  setGenreOptionClicked() {
-    this.isGenreOptionClicked = true;
+  setGenreOptionClicked(value: boolean) {
+    this.isGenreOptionClicked = value;
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { MenuItems } from 'src/app/menu-items';
 import { Menu } from 'src/app/menu-items.model';
@@ -11,7 +11,7 @@ import { AuthService } from '../core/services/auth.service';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
   userData: any;
   menuList: Menu[];
   isLoading: boolean = false;
@@ -31,6 +31,9 @@ export class LayoutComponent implements OnInit {
 
   logOut() {
     this.authService.logOut();
+    this.subs.sink = this.authService.endSession().subscribe((resp) => {
+      console.log(resp);
+    });
   }
 
   getAuthenticatedUser() {
@@ -50,5 +53,9 @@ export class LayoutComponent implements OnInit {
     return this.userData?.profile_picture?.url
       ? `url(${this.userData.profile_picture.url})`
       : 'url(../../assets/images/default-user-profile.png)';
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
