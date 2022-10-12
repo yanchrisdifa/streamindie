@@ -152,12 +152,13 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     const progressWidthClicked: number =
       event.clientX -
       this.songProgressContainer.nativeElement.getBoundingClientRect().left;
-    const fullProgressWidth =
+    const fullProgressWidth: number =
       this.songProgressContainer.nativeElement.clientWidth;
-    const songDuration = this.audioPlayer.nativeElement.duration;
-    const percentageProgressWidth =
+    const songDuration: number = this.audioPlayer.nativeElement.duration;
+    const percentageProgressWidth: number =
       (progressWidthClicked / fullProgressWidth) * 100;
-    const songClickedDuration = (songDuration * percentageProgressWidth) / 100;
+    const songClickedDuration: number =
+      (songDuration * percentageProgressWidth) / 100;
     this.audioPlayer.nativeElement.currentTime = songClickedDuration;
   }
 
