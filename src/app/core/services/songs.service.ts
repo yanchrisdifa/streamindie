@@ -90,6 +90,27 @@ export class SongsService {
     });
   }
 
+  deleteSong(id): Observable<any> {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation deleteSong($id: ID) {
+          deleteSong(where: { id: $id }) {
+            id
+            title
+            image {
+              id
+              url
+              extension
+            }
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    });
+  }
+
   setCurrentPlayingSong(songData: any): void {
     if (this.oldPlayingSongId === songData?.id) {
       this.rawCurrentPlayingSong = {

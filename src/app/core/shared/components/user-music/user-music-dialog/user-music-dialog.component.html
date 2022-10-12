@@ -6,6 +6,9 @@
     <ng-container *ngIf="data?.type === 'add'">
       <h2 class="m-0">Post a Song</h2>
     </ng-container>
+    <ng-container *ngIf="data?.type === 'delete'">
+      <h2 class="m-0">Delete this song Permanently?</h2>
+    </ng-container>
     <mat-icon (click)="closeDialog()" class="close-icon">close</mat-icon>
   </div>
   <div
@@ -111,6 +114,7 @@
             #songCover
           />
           <div
+            *ngIf="data?.type !== 'delete'"
             class="song-cover-overlay flex m-0 p-0 align-items-center justify-content-center"
             style="
               position: absolute !important;
@@ -178,12 +182,22 @@
   </div>
   <div class="action" style="margin-top: 20px">
     <button
+      *ngIf="data?.type !== 'delete'"
       mat-flat-button
       class="bg-third-color"
       style="border-radius: 2px"
       (click)="saveSong()"
     >
       Save
+    </button>
+    <button
+      *ngIf="data?.type === 'delete'"
+      mat-flat-button
+      style="border-radius: 2px; color: #000 !important"
+      color="warn"
+      (click)="deleteSong(data?.data?.id)"
+    >
+      Delete
     </button>
     <button
       mat-flat-button

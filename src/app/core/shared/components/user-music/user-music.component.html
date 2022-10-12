@@ -125,6 +125,7 @@
             class="p-0"
             [disabled]="isGenreLoading"
             [disableRipple]="true"
+            (click)="openDialog('delete', element)"
           >
             <p
               style="

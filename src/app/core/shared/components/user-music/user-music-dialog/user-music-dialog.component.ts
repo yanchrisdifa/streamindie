@@ -78,6 +78,10 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
     this.subsFormValueChanges();
     this.handleDisableButton();
+    console.log(this.data?.type);
+    if (this.data?.type === 'delete') {
+      this.dialogForm.disable();
+    }
   }
 
   subsFormValueChanges() {
@@ -237,6 +241,14 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
           }
         );
       }
+    }
+  }
+
+  deleteSong(id: string) {
+    if (id) {
+      this.subs.sink = this.songsService.deleteSong(id).subscribe((resp) => {
+        this.dialogref.close({ isSaved: true });
+      });
     }
   }
 

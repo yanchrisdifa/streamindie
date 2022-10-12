@@ -39,14 +39,20 @@ input {
         .mat-autocomplete-panel {
             background-color: rgba(68, 68, 68, 1) !important;
         }
-        .mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover) {
-            background-color: rgba(68, 68, 68, 1) !important;
-        }
         .mat-simple-snackbar-action {
             color: #33f58e !important;
         }
         .mat-form-field-flex {
             background-color: #222 !important;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-autocomplete-panel  {
+        background-color: rgba(68, 68, 68, 1) !important; 
+        .mat-option.mat-selected:not(.mat-active):not(:hover) {
+            background-color: rgba(68, 68, 68, 1) !important; 
         }
     }
 }
