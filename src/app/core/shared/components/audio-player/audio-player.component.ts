@@ -21,6 +21,7 @@ import { SubSink } from 'subsink';
 export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   currentPlayingSong: any = null;
   @ViewChild('audioPlayer') audioPlayer: ElementRef;
+  @ViewChild('songProgressContainer') songProgressContainer: ElementRef;
   private subs = new SubSink();
   currentPlayingSongDuration: string;
   songProgress: string = '0%';
@@ -115,10 +116,9 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.audioPlayer?.nativeElement) {
       this.audioPlayer.nativeElement.ontimeupdate = () => {
         this.songProgress =
-          Math.floor(
-            (this.audioPlayer.nativeElement.currentTime * 100) /
-              this.audioPlayer.nativeElement.duration
-          ) + '%';
+          (this.audioPlayer.nativeElement.currentTime * 100) /
+            this.audioPlayer.nativeElement.duration +
+          '%';
         this.songCurrentTime = this.timeFormat(
           this.audioPlayer.nativeElement.currentTime
         );
@@ -146,6 +146,19 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.genresService.currentPlayingGenre$.subscribe((data) => {
       this.currentPlayingGenre = data;
     });
+  }
+
+  goToDuration(event: PointerEvent) {
+    const progressWidthClicked: number =
+      event.clientX -
+      this.songProgressContainer.nativeElement.getBoundingClientRect().left;
+    const fullProgressWidth =
+      this.songProgressContainer.nativeElement.clientWidth;
+    const songDuration = this.audioPlayer.nativeElement.duration;
+    const percentageProgressWidth =
+      (progressWidthClicked / fullProgressWidth) * 100;
+    const songClickedDuration = (songDuration * percentageProgressWidth) / 100;
+    this.audioPlayer.nativeElement.currentTime = songClickedDuration;
   }
 
   ngOnDestroy(): void {

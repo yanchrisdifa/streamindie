@@ -10,7 +10,7 @@
 >
   <div class="col-6 m-0 p-0">
     <div class="flex gap-1">
-      <div class="song-image-container mr-2 mt-1">
+      <div class="song-image-container mr-3 mt-1">
         <img
           [src]="currentPlayingSong?.image?.url"
           style="max-width: 48px !important; max-height: 100%"
@@ -69,6 +69,8 @@
         <div
           class="duration-full w-full"
           style="height: 5px; background-color: #555"
+          (click)="goToDuration($event)"
+          #songProgressContainer
         >
           <div
             class="duration-full h-full"
