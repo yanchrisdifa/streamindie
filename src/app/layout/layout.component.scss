@@ -7,7 +7,7 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
-    height: calc(100% - 180px);
+    height: calc(100% - 160px);
     mat-sidenav {
         mat-nav-list {
             padding: 20px 70px 20px 30px !important;
@@ -62,7 +62,7 @@ mat-icon {
 ::ng-deep {
     .mat-form-field-flex {
         background-color: rgba(68, 68, 68, 0.7) !important;
-        padding: 0.75em !important;
+        padding: 0.25em 0.75em !important;
         border-radius: 4px !important;
         display: flex !important;
         align-items: center !important;

@@ -1,18 +1,19 @@
 <div
   class="audio-container w-full bg-second-color grid m-0"
   style="
-    height: 100px;
-    padding: 1rem !important;
+    height: 80px;
+    padding: 10px 1rem !important;
     box-sizing: border-box;
     border-top: 1px solid #323232;
+    position: relative;
   "
 >
-  <div class="col-4 m-0 p-0">
+  <div class="col-6 m-0 p-0">
     <div class="flex gap-1">
-      <div class="song-image-container mr-2">
+      <div class="song-image-container mr-2 mt-1">
         <img
           [src]="currentPlayingSong?.image?.url"
-          style="max-width: 68px !important; max-height: 100%"
+          style="max-width: 48px !important; max-height: 100%"
         />
       </div>
       <div
@@ -29,56 +30,65 @@
     </div>
   </div>
   <div
-    class="col-4 m-0 p-0 flex flex-column justify-content-center align-items-center gap-2"
+    class="col-6 m-0 p-0 flex flex-column justify-content-center align-items-end gap-2"
     style="transform: translateY(-4px)"
   >
-    <div class="button-container flex gap-3">
-      <button mat-icon-button>
-        <mat-icon style="color: #fff !important; transform: scale(1.3)"
-          >skip_previous</mat-icon
+    <div class="action-container flex m-0 p-0 gap-3">
+      <div class="button-container flex">
+        <button mat-icon-button>
+          <mat-icon style="color: #fff !important; transform: scale(1.3)"
+            >skip_previous</mat-icon
+          >
+        </button>
+        <button
+          mat-icon-button
+          (click)="setCurrentPlayingSong(currentPlayingSong)"
         >
-      </button>
-      <button
-        mat-icon-button
-        (click)="setCurrentPlayingSong(currentPlayingSong)"
-      >
-        <mat-icon
-          *ngIf="!currentPlayingSong?.isPlayed"
-          style="color: #fff !important; transform: scale(1.3)"
-          >play_arrow</mat-icon
-        >
-        <mat-icon
-          *ngIf="currentPlayingSong?.isPlayed === true"
-          style="color: #fff !important; transform: scale(1.3)"
-          >pause</mat-icon
-        >
-      </button>
-      <button mat-icon-button>
-        <mat-icon style="color: #fff !important; transform: scale(1.3)"
-          >skip_next</mat-icon
-        >
-      </button>
-    </div>
-    <div
-      class="duration-container w-full flex m-0 p-0 align-items-center gap-3"
-    >
-      <p style="color: #fff" class="m-0 p-0">{{ songCurrentTime }}</p>
-      <div
-        class="duration-full w-full"
-        style="height: 5px; background-color: #555"
-      >
-        <div
-          class="duration-full h-full"
-          [ngStyle]="{ width: songProgress }"
-          style="background-color: #fff"
-        ></div>
+          <mat-icon
+            *ngIf="!currentPlayingSong?.isPlayed"
+            style="color: #fff !important; transform: scale(1.3)"
+            >play_arrow</mat-icon
+          >
+          <mat-icon
+            *ngIf="currentPlayingSong?.isPlayed === true"
+            style="color: #fff !important; transform: scale(1.3)"
+            >pause</mat-icon
+          >
+        </button>
+        <button mat-icon-button>
+          <mat-icon style="color: #fff !important; transform: scale(1.3)"
+            >skip_next</mat-icon
+          >
+        </button>
       </div>
-      <p style="color: #fff" class="m-0 p-0">
-        {{ getDuration() }}
-      </p>
+      <div
+        class="duration-container flex m-0 p-0 align-items-center gap-3"
+        style="width: 400px !important"
+      >
+        <p style="color: #fff" class="m-0 p-0">{{ songCurrentTime }}</p>
+        <div
+          class="duration-full w-full"
+          style="height: 5px; background-color: #555"
+        >
+          <div
+            class="duration-full h-full"
+            [ngStyle]="{ width: songProgress }"
+            style="background-color: #fff"
+          ></div>
+        </div>
+        <p style="color: #fff" class="m-0 p-0">
+          {{ getDuration() }}
+        </p>
+      </div>
+      <div class="volume-container">
+        <button mat-icon-button>
+          <mat-icon style="color: #fff !important; transform: scale(1.1)"
+            >volume_up</mat-icon
+          >
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-4 m-0 p-0"></div>
 </div>
 <audio #audioPlayer hidden preload="metadata">
   <source [src]="currentPlayingSong?.audio?.url" type="audio/mpeg" />
