@@ -35,6 +35,18 @@
   >
     <div class="action-container flex m-0 p-0 gap-3">
       <div class="button-container flex">
+        <button mat-icon-button (click)="setPlayBackMode('repeatOne')">
+          <mat-icon
+            style="color: #555 !important; transform: scale(1.3)"
+            [ngStyle]="{
+              color:
+                playBackMode?.repeatOne && !playBackMode?.shuffle
+                  ? '#33f58e'
+                  : '#555'
+            }"
+            >repeat_one</mat-icon
+          >
+        </button>
         <button mat-icon-button>
           <mat-icon style="color: #fff !important; transform: scale(1.3)"
             >skip_previous</mat-icon
@@ -60,34 +72,61 @@
             >skip_next</mat-icon
           >
         </button>
+        <button mat-icon-button (click)="setPlayBackMode('shuffle')">
+          <mat-icon
+            style="color: #555 !important; transform: scale(1.3)"
+            [ngStyle]="{
+              color:
+                !playBackMode?.repeatOne && playBackMode?.shuffle
+                  ? '#33f58e'
+                  : '#555'
+            }"
+            >shuffle</mat-icon
+          >
+        </button>
       </div>
       <div
         class="duration-container flex m-0 p-0 align-items-center gap-3"
         style="width: 400px !important"
       >
         <p style="color: #fff" class="m-0 p-0">{{ songCurrentTime }}</p>
-        <div
-          class="duration-full w-full"
-          style="height: 5px; background-color: #555"
-          (click)="goToDuration($event)"
-          #songProgressContainer
-        >
-          <div
-            class="duration-full h-full"
-            [ngStyle]="{ width: songProgress }"
-            style="background-color: #fff"
-          ></div>
-        </div>
+        <input
+          [value]="songProgress ? songProgress : 0"
+          type="range"
+          min="0"
+          max="100"
+          style="height: 5px !important; background-size: 0% 100%"
+          [ngStyle]="{ 'background-size': songProgress + '% 100%' }"
+          class="w-full song-range"
+          [formControl]="songCtrl"
+          #songRange
+        />
         <p style="color: #fff" class="m-0 p-0">
           {{ getDuration() }}
         </p>
       </div>
-      <div class="volume-container">
-        <button mat-icon-button>
-          <mat-icon style="color: #fff !important; transform: scale(1.1)"
+      <div class="volume-container flex m-0 p-0 align-items-center">
+        <button mat-icon-button (click)="toggleVolume()">
+          <mat-icon
+            style="color: #fff !important; transform: scale(1.1)"
+            *ngIf="volumeCtrl.value"
             >volume_up</mat-icon
           >
+          <mat-icon
+            style="color: #fff !important; transform: scale(1.1)"
+            *ngIf="!volumeCtrl.value"
+            >volume_off</mat-icon
+          >
         </button>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [formControl]="volumeCtrl"
+          style="height: 5px !important"
+          #volumeRange
+          class="volume-range"
+        />
       </div>
     </div>
   </div>
