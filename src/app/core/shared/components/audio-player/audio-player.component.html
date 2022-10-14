@@ -49,7 +49,7 @@
         </button>
         <button mat-icon-button>
           <mat-icon style="color: #fff !important; transform: scale(1.3)"
-            >skip_previous</mat-icon
+            (click)="skipSong('previous')">skip_previous</mat-icon
           >
         </button>
         <button
@@ -69,7 +69,7 @@
         </button>
         <button mat-icon-button>
           <mat-icon style="color: #fff !important; transform: scale(1.3)"
-            >skip_next</mat-icon
+          (click)="skipSong('next')">skip_next</mat-icon
           >
         </button>
         <button mat-icon-button (click)="setPlayBackMode('shuffle')">

@@ -14,7 +14,7 @@ export class GenresService {
 
   constructor(private apollo: Apollo) {}
 
-  getAllGenres(payload): Observable<genre | genre[]> {
+  getAllGenres(payload): Observable<genre[]> {
     return this.apollo
       .query<any[]>({
         query: gql`

@@ -37,6 +37,9 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     shuffle: false,
   };
 
+  songsCount: number;
+  oldRandomSongSkip: number;
+
   constructor(
     private songsService: SongsService,
     private cdr: ChangeDetectorRef,
@@ -50,6 +53,7 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getCurrentTime();
     this.getCurrentPlayingGenre();
     this.subsFormControlsVal();
+    this.getAllSongCount();
     this.cdr.detectChanges();
   }
 
@@ -174,6 +178,8 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
             if (temp[0] === 'repeatOne') {
               this.songsService.setCurrentPlayingSong(this.currentPlayingSong);
               this.songsService.setCurrentPlayingSong(this.currentPlayingSong);
+            } else if (temp[0] === 'shuffle') {
+              this.setCurrentPlayingRandomSong();
             }
           }
         }
@@ -204,6 +210,41 @@ export class AudioPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (type === 'shuffle') {
       this.playBackMode.shuffle = this.playBackMode.shuffle ? false : true;
       this.playBackMode.repeatOne = false;
+    }
+  }
+
+  setCurrentPlayingRandomSong() {
+    const random = Math.round(Math.random() * (this.songsCount - 1 - 0) - 0);
+    if (random === this.oldRandomSongSkip) {
+      this.setCurrentPlayingRandomSong();
+      return;
+    }
+    this.oldRandomSongSkip = random;
+    this.subs.sink = this.songsService
+      .getAllSongs(`take: 1, skip: ${random}`)
+      .subscribe((resp) => {
+        if (resp?.length) {
+          this.songsService.setCurrentPlayingSong(resp[0]);
+        }
+      });
+  }
+
+  getAllSongCount() {
+    this.subs.sink = this.songsService
+      .getSongCount({ NOT: { artists: null } })
+      .subscribe((resp) => {
+        this.songsCount = resp;
+      });
+  }
+
+  skipSong(type) {
+    if (this.audioPlayer?.nativeElement) {
+      if (type === 'next') {
+        this.audioPlayer.nativeElement.currentTime =
+          this.audioPlayer?.nativeElement?.duration;
+      } else if (type === 'previous') {
+        this.audioPlayer.nativeElement.currentTime = 0;
+      }
     }
   }
 

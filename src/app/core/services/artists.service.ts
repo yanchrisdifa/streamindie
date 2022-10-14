@@ -10,7 +10,7 @@ import { Apollo, gql } from 'apollo-angular';
 export class ArtistsService {
   constructor(private apollo: Apollo) {}
 
-  getAllArtists(payload): Observable<artist | artist[]> {
+  getAllArtists(payload): Observable<artist[]> {
     return this.apollo
       .watchQuery<any[]>({
         query: gql`

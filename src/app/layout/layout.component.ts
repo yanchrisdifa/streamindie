@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { MenuItems } from 'src/app/menu-items';
 import { Menu } from 'src/app/menu-items.model';
@@ -16,17 +19,20 @@ export class LayoutComponent implements OnInit, OnDestroy {
   menuList: Menu[];
   isLoading: boolean = false;
 
+  searchControl: FormControl = new FormControl(null);
+
   private subs = new SubSink();
 
   constructor(
     private menuItems: MenuItems,
     private authService: AuthService,
-    private artistsService: ArtistsService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.menuList = this.menuItems.menus;
     this.getAuthenticatedUser();
+    this.subsFormControl();
   }
 
   logOut() {
@@ -34,6 +40,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.subs.sink = this.authService.endSession().subscribe((resp) => {
       console.log(resp);
     });
+  }
+
+  subsFormControl() {
+    this.subs.sink = this.searchControl.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe((resp) => {
+        this.router.navigate([`/app/search/${resp}`]);
+      });
   }
 
   getAuthenticatedUser() {

@@ -111,6 +111,21 @@ export class SongsService {
     });
   }
 
+  getSongCount(where): Observable<any> {
+    return this.apollo
+      .watchQuery({
+        query: gql`
+          query songsCount($where: SongWhereInput!) {
+            songsCount(where: $where)
+          }
+        `,
+        variables: {
+          where,
+        },
+      })
+      .valueChanges.pipe(map((resp) => resp.data['songsCount']));
+  }
+
   setCurrentPlayingSong(songData: any): void {
     if (this.oldPlayingSongId === songData?.id) {
       this.rawCurrentPlayingSong = {

@@ -27,7 +27,11 @@
         floatLabel="never"
         style="transform: translateY(10px); letter-spacing: 1px"
       >
-        <input matInput placeholder="Search Your Music!" />
+        <input
+          matInput
+          placeholder="Search Your Music!"
+          [formControl]="searchControl"
+        />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>

@@ -16,12 +16,12 @@ export class UserDetailsComponent implements OnInit {
   private subs = new SubSink();
 
   constructor(
-    private router: ActivatedRoute,
+    private route: ActivatedRoute,
     private artistsService: ArtistsService
   ) {}
 
   ngOnInit(): void {
-    this.subs.sink = this.router.paramMap.subscribe((param) => {
+    this.subs.sink = this.route.paramMap.subscribe((param) => {
       this.selectedUserId = param.get('id');
       this.getUserDetails();
     });

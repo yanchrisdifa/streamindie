@@ -1,0 +1,153 @@
+<div
+  class="search-container w-full bg-first-color h-full p-6"
+  style="min-height: calc(100vh - 160px); box-sizing: border-box"
+>
+  <h1 class="text-white mb-5" style="font-weight: 500; letter-spacing: 1.5px">
+    Result for {{ '"' + searchTxt + '"' }}
+  </h1>
+  <div class="content-container grid m-0 p-0 gap-4">
+    <div
+      class="artists-container col bg-second-color"
+      style="
+        border-radius: 5px !important;
+        padding: 2rem;
+        box-sizing: border-box !important;
+        height: fit-content !important;
+      "
+      *ngIf="artistsResult?.length"
+    >
+      <h1
+        style="color: #555; font-weight: 500; letter-spacing: 1.5px"
+        class="p-0"
+      >
+        Artists
+      </h1>
+      <div
+        class="w-full mb-5"
+        style="height: 1px; background-color: #555; margin: 10px 0"
+      ></div>
+      <div class="artist-content-container flex m-0 p-0 gap-4 flex-column">
+        <ng-container *ngFor="let artist of artistsResult">
+          <div
+            class="artist-content w-full flex m-0 p-0 gap-5 artist-card"
+            style="height: 150px !important"
+            [routerLink]="'/app/artist-details/' + artist?.id"
+          >
+            <div
+              class="image-container h-full m-0"
+              style="
+                width: 150px !important;
+                border-radius: 50%;
+                overflow: hidden;
+              "
+            >
+              <img
+                [src]="
+                  artist?.profile_picture?.url
+                    ? artist?.profile_picture?.url
+                    : '../../assets/images/default-user-profile.png'
+                "
+                alt=""
+                class="w-full h-full"
+              />
+            </div>
+            <div
+              class="text-container flex flex-column m-0 p-0 justify-content-center"
+            >
+              <h1
+                style="font-weight: 500; letter-spacing: 1.5px"
+                class="text-white m-0"
+              >
+                {{ artist?.name }}
+              </h1>
+              <h3
+                class="p-0 m-0 mt-1"
+                style="font-size: 1.3rem; letter-spacing: 1px; color: #555"
+              >
+                {{ artist?.email }}
+              </h3>
+              <div
+                class="user-type-container mt-2"
+                style="
+                  padding: 5px 20px;
+                  border-radius: 20px;
+                  width: fit-content;
+                  background-color: #555;
+                "
+              >
+                <p
+                  class="m-0 p-0 text-first-color"
+                  style="
+                    font-size: 1rem;
+                    letter-spacing: 1px;
+                    width: fit-content;
+                    font-weight: 500;
+                  "
+                >
+                  {{ artist?.userType | titlecase }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div
+      class="songs-container col bg-second-color"
+      style="
+        border-radius: 5px !important;
+        padding: 2rem;
+        box-sizing: border-box !important;
+        height: fit-content !important;
+      "
+      *ngIf="songsResult?.length"
+    >
+      <h1
+        style="color: #555; font-weight: 500; letter-spacing: 1.5px"
+        class="p-0"
+      >
+        Songs
+      </h1>
+      <div
+        class="w-full mb-5"
+        style="height: 1px; background-color: #555; margin: 10px 0"
+      ></div>
+      <div class="song-content-container flex m-0 p-0 gap-4 flex-column">
+        <ng-container *ngFor="let song of songsResult">
+          <div
+            class="song-content w-full flex m-0 p-0 gap-5 song-card"
+            style="height: 80px !important"
+          >
+            <div
+              class="image-container h-full m-0"
+              style="width: 80px !important"
+            >
+              <img [src]="song?.image?.url" alt="" class="w-full h-full" />
+            </div>
+            <div
+              class="text-container flex flex-column m-0 p-0 justify-content-center"
+            >
+              <h3
+                style="
+                  font-weight: 500;
+                  letter-spacing: 1.5px;
+                  font-size: 1.3rem;
+                "
+                class="text-white m-0"
+              >
+                {{ song?.title | separateTitle: "title" }}
+              </h3>
+              <h3
+                class="p-0 m-0 mt-1"
+                style="font-size: 1rem; letter-spacing: 1px; color: #555"
+              >
+                {{ song?.title | separateTitle: "artist" }}
+              </h3>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <!-- <div class="col bg-third-color" style="border-radius: 5px !important"></div> -->
+  </div>
+</div>
