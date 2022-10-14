@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { artist } from '../core/models/artists.model';
@@ -21,6 +21,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   songsResult: any[] = [];
   genresResult: any[] = [];
 
+  currentPlayingSong: any;
+
   constructor(
     private route: ActivatedRoute,
     private artistsService: ArtistsService,
@@ -36,6 +38,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.getSongsBySearch(this.searchTxt);
       this.getGenresBySearch(this.searchTxt);
     });
+    this.getCurrentPlayingSong();
   }
 
   getArtistsBySearch(searchTxt) {
@@ -71,6 +74,16 @@ export class SearchComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.genresResult = resp;
       });
+  }
+
+  getCurrentPlayingSong() {
+    this.subs.sink = this.songsService.currentPlayingSong$.subscribe((resp) => {
+      this.currentPlayingSong = resp;
+    });
+  }
+
+  setCurrentPlayingSong(songData) {
+    this.songsService.setCurrentPlayingSong(songData);
   }
 
   ngOnDestroy(): void {

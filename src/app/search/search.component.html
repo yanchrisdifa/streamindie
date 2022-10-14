@@ -5,16 +5,24 @@
   <h1 class="text-white mb-5" style="font-weight: 500; letter-spacing: 1.5px">
     Result for {{ '"' + searchTxt + '"' }}
   </h1>
-  <div class="content-container grid m-0 p-0 gap-4">
+  <div
+    class="content-container m-0 p-0 gap-4"
+    style="
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: minmax(min-content, max-content);
+    "
+  >
     <div
-      class="artists-container col bg-second-color"
+      class="artists-container bg-second-color"
       style="
         border-radius: 5px !important;
         padding: 2rem;
         box-sizing: border-box !important;
         height: fit-content !important;
       "
-      *ngIf="artistsResult?.length"
+      [ngStyle]="{ display: artistsResult?.length ? 'block' : 'none' }"
+      #artistsContainer
     >
       <h1
         style="color: #555; font-weight: 500; letter-spacing: 1.5px"
@@ -29,9 +37,9 @@
       <div class="artist-content-container flex m-0 p-0 gap-4 flex-column">
         <ng-container *ngFor="let artist of artistsResult">
           <div
-            class="artist-content w-full flex m-0 p-0 gap-5 artist-card"
+            class="artist-content w-full flex m-0 p-0 gap-5"
             style="height: 150px !important"
-            [routerLink]="'/app/artist-details/' + artist?.id"
+            [routerLink]="'/app/details/' + artist?.id"
           >
             <div
               class="image-container h-full m-0"
@@ -93,14 +101,15 @@
       </div>
     </div>
     <div
-      class="songs-container col bg-second-color"
+      class="songs-container bg-second-color"
       style="
         border-radius: 5px !important;
         padding: 2rem;
         box-sizing: border-box !important;
         height: fit-content !important;
       "
-      *ngIf="songsResult?.length"
+      [ngStyle]="{ display: songsResult?.length ? 'block' : 'none' }"
+      #songsContainer
     >
       <h1
         style="color: #555; font-weight: 500; letter-spacing: 1.5px"
@@ -120,8 +129,34 @@
           >
             <div
               class="image-container h-full m-0"
-              style="width: 80px !important"
+              style="width: 80px !important; position: relative"
             >
+              <div
+                class="song-overlay-container flex justify-content-center align-items-center m-0 p-0"
+                [ngStyle]="{
+                  opacity: currentPlayingSong?.id === song?.id ? 1 : 0
+                }"
+              >
+                <button mat-icon-button (click)="setCurrentPlayingSong(song)">
+                  <mat-icon
+                    class="text-white m-0 p-0"
+                    *ngIf="
+                      currentPlayingSong?.id !== song?.id ||
+                      (currentPlayingSong?.id === song?.id &&
+                        !currentPlayingSong?.isPlayed)
+                    "
+                    >play_arrow</mat-icon
+                  >
+                  <mat-icon
+                    class="text-white m-0 p-0"
+                    *ngIf="
+                      currentPlayingSong?.id === song?.id &&
+                      currentPlayingSong?.isPlayed
+                    "
+                    >pause</mat-icon
+                  >
+                </button>
+              </div>
               <img [src]="song?.image?.url" alt="" class="w-full h-full" />
             </div>
             <div
@@ -148,6 +183,160 @@
         </ng-container>
       </div>
     </div>
-    <!-- <div class="col bg-third-color" style="border-radius: 5px !important"></div> -->
+    <div
+      class="users-container bg-second-color"
+      style="
+        border-radius: 5px !important;
+        padding: 2rem;
+        box-sizing: border-box !important;
+        height: fit-content !important;
+      "
+      [ngStyle]="{
+        'margin-top':
+          artistsContainer?.offsetHeight < songsContainer?.offsetHeight
+            ? artistsContainer.offsetHeight -
+              songsContainer?.offsetHeight +
+              'px'
+            : 0,
+        display: usersResult?.length ? 'block' : 'none'
+      }"
+    >
+      <h1
+        style="color: #555; font-weight: 500; letter-spacing: 1.5px"
+        class="p-0"
+      >
+        Users
+      </h1>
+      <div
+        class="w-full mb-5"
+        style="height: 1px; background-color: #555; margin: 10px 0"
+      ></div>
+      <div class="user-content-container flex m-0 p-0 gap-4 flex-column">
+        <ng-container *ngFor="let user of usersResult">
+          <div
+            class="user-content w-full flex m-0 p-0 gap-5 user-card"
+            style="height: 150px !important"
+            [routerLink]="'/app/details/' + user?.id"
+          >
+            <div
+              class="image-container h-full m-0"
+              style="
+                width: 150px !important;
+                border-radius: 50%;
+                overflow: hidden;
+              "
+            >
+              <img
+                [src]="
+                  user?.profile_picture?.url
+                    ? user?.profile_picture?.url
+                    : '../../assets/images/default-user-profile.png'
+                "
+                alt=""
+                class="w-full h-full"
+              />
+            </div>
+            <div
+              class="text-container flex flex-column m-0 p-0 justify-content-center"
+            >
+              <h1
+                style="font-weight: 500; letter-spacing: 1.5px"
+                class="text-white m-0"
+              >
+                {{ user?.name }}
+              </h1>
+              <h3
+                class="p-0 m-0 mt-1"
+                style="font-size: 1.3rem; letter-spacing: 1px; color: #555"
+              >
+                {{ user?.email }}
+              </h3>
+              <div
+                class="user-type-container mt-2"
+                style="
+                  padding: 5px 20px;
+                  border-radius: 20px;
+                  width: fit-content;
+                  background-color: #555;
+                "
+              >
+                <p
+                  class="m-0 p-0 text-first-color"
+                  style="
+                    font-size: 1rem;
+                    letter-spacing: 1px;
+                    width: fit-content;
+                    font-weight: 500;
+                  "
+                >
+                  {{ user?.userType | titlecase }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div
+      class="genres-container bg-second-color"
+      style="
+        border-radius: 5px !important;
+        padding: 2rem;
+        box-sizing: border-box !important;
+        height: fit-content !important;
+      "
+      [ngStyle]="{
+        'margin-top':
+          !usersResult?.length &&
+          artistsContainer?.offsetHeight < songsContainer?.offsetHeight
+            ? artistsContainer.offsetHeight -
+              songsContainer?.offsetHeight +
+              'px'
+            : artistsContainer?.offsetHeight > songsContainer?.offsetHeight
+            ? songsContainer.offsetHeight -
+              artistsContainer?.offsetHeight +
+              'px'
+            : 0,
+        display: genresResult?.length ? 'block' : 'none'
+      }"
+    >
+      <h1
+        style="color: #555; font-weight: 500; letter-spacing: 1.5px"
+        class="p-0"
+      >
+        Genres
+      </h1>
+      <div
+        class="w-full mb-5"
+        style="height: 1px; background-color: #555; margin: 10px 0"
+      ></div>
+      <div class="genre-content-container flex m-0 p-0 gap-4">
+        <ng-container *ngFor="let genre of genresResult">
+          <div class="genre-content m-0 p-0 gap-6 genre-card">
+            <div
+              class="user-type-container mt-2"
+              style="
+                padding: 5px 20px;
+                border-radius: 20px;
+                width: fit-content;
+                background-color: #555;
+              "
+            >
+              <p
+                class="m-0 p-0 text-first-color"
+                style="
+                  font-size: 1rem;
+                  letter-spacing: 1px;
+                  width: fit-content;
+                  font-weight: 500;
+                "
+              >
+                {{ genre?.name | titlecase }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>

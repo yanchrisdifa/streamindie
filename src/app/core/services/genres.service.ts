@@ -22,6 +22,10 @@ export class GenresService {
             genres(${payload}) {
               id
               name
+              artists {
+                id
+                name
+              }
               image {
                 url
               }

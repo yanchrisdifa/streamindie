@@ -148,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   goToUser(data) {
-    this.route.navigate([`/app/artist-details/${data.id}`]);
+    this.route.navigate([`/app/details/${data.id}`]);
   }
 
   ngOnDestroy(): void {
