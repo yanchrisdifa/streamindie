@@ -181,6 +181,25 @@ export class AuthService {
       .valueChanges.pipe(map((resp: any) => resp.data['authenticatedItem']));
   }
 
+  signIn(data): Observable<any> {
+    return this.apollo
+      .mutate({
+        mutation: gql`
+          mutation signIn($data: UserCreateInput!) {
+            createUser(data: $data) {
+              id
+              name
+              email
+            }
+          }
+        `,
+        variables: {
+          data,
+        },
+      })
+      .pipe(map((resp: any) => resp.data['createUser']));
+  }
+
   logOut() {
     this.genresService.resetCurrentPlayingGenre();
     this.songsService.resetCurrentPlayingSong();

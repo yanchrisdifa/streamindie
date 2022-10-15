@@ -64,6 +64,23 @@
       >
         <input
           matInput
+          placeholder="username"
+          type="text"
+          class="text-white"
+          [formControl]="usernameForm"
+        />
+        <mat-error *ngIf="emailForm.hasError('required')"
+          >This field is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="letter-spacing: 1px; margin: 0 0 10px 0"
+      >
+        <input
+          matInput
           placeholder="email"
           type="email"
           class="text-white"
@@ -109,13 +126,51 @@
           >This field is required</mat-error
         >
       </mat-form-field>
+      <mat-form-field
+        class="w-full text-base"
+        appearance="fill"
+        floatLabel="never"
+        style="letter-spacing: 1px; margin: 0 0 10px 0"
+      >
+        <input
+          matInput
+          placeholder="confirm password"
+          type="password"
+          class="text-white"
+          [formControl]="confirmPasswordForm"
+          #confirmPassword
+        />
+        <mat-icon
+          matSuffix
+          class="text-white"
+          *ngIf="!showConfirmPassword"
+          (click)="showConfirmPassword = true; confirmPassword.type = 'text'"
+          >visibility</mat-icon
+        >
+        <mat-icon
+          matSuffix
+          class="text-white"
+          *ngIf="showConfirmPassword"
+          (click)="
+            showConfirmPassword = false; confirmPassword.type = 'password'
+          "
+          >visibility_off</mat-icon
+        >
+        <mat-error
+          *ngIf="
+            confirmPasswordForm.touched &&
+            confirmPasswordForm.hasError('required')
+          "
+          >This field is required</mat-error
+        >
+      </mat-form-field>
       <button
         mat-flat-button
         class="w-full bg-third-color"
         style="font-size: 1rem; letter-spacing: 1px"
-        (click)="login()"
+        (click)="signUp()"
       >
-        Login
+        Sign Up
       </button>
       <div
         style="
@@ -126,10 +181,8 @@
         class="w-full"
       ></div>
       <p class="text-white" style="letter-spacing: 1px">
-        Don't have an account?
-        <a class="text-third-color" routerLink="/session/sign-up"
-          >Sign Up Now!</a
-        >
+        Already have an account?
+        <a class="text-third-color" routerLink="/session/login">Sign In Now!</a>
       </p>
     </div>
   </div>
