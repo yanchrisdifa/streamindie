@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { BehaviorSubject, forkJoin, map, of } from 'rxjs';
+import { ArtistsService } from 'src/app/core/services/artists.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { GenresService } from 'src/app/core/services/genres.service';
 import { SongsService } from 'src/app/core/services/songs.service';
@@ -41,6 +42,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource = new MatTableDataSource([]);
   @Input() artistId: string;
   currentUserId: string;
+  currentUser: any;
   hoveredRowId: string;
   currentPlayingSong: any;
   isDataExist: boolean = false;
@@ -56,7 +58,8 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private genresService: GenresService,
-    private _snackbar: MatSnackBar
+    private _snackbar: MatSnackBar,
+    private artistsService: ArtistsService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +75,7 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   getAuthenticatedUser() {
     this.subs.sink = this.authService.authenticatedUser$.subscribe((resp) => {
       this.currentUserId = resp?.id;
+      this.currentUser = resp;
       console.log(this.currentUserId);
       this.getSongsData();
     });
@@ -89,8 +93,25 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
           if (resp?.length) {
             this.isDataExist = true;
             this.dataSource.data = resp;
+          } else {
+            this.unSetUserAsArtist();
+            this.isDataExist = false;
           }
           this.isLoading = false;
+        });
+    }
+  }
+
+  unSetUserAsArtist() {
+    if (
+      this.currentUser?.userType === 'artist' &&
+      !this.dataSource?.data?.length
+    ) {
+      this.subs.sink = this.artistsService
+        .editUserOrArtist(this.currentUser?.id, { userType: 'user' })
+        .subscribe((resp) => {
+          console.log(resp);
+          this.authService.authenticatedUser$.next(resp);
         });
     }
   }

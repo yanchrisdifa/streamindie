@@ -18,6 +18,8 @@ import * as _ from 'lodash';
 import { debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 import { GenresService } from 'src/app/core/services/genres.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { ArtistsService } from 'src/app/core/services/artists.service';
 
 @Component({
   selector: 'app-user-music-dialog',
@@ -50,6 +52,8 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     },
   };
 
+  currentUser: any;
+
   private subs = new SubSink();
 
   constructor(
@@ -57,11 +61,14 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     public dialogref: MatDialogRef<UserMusicDialogComponent>,
     private fb: UntypedFormBuilder,
     private songsService: SongsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService,
+    private artistsService: ArtistsService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.getAuthenticatedUser();
   }
 
   initForm() {
@@ -214,6 +221,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
         this.subs.sink = this.songsService
           .createSong(this.cleanPayload())
           .subscribe((resp) => {
+            this.setUserAsArtist();
             this.dialogref.close({ isSaved: true });
           });
       } else if (!this.updatedSongCover && !this.updatedSongAudio) {
@@ -286,6 +294,23 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       }
     });
     return payload;
+  }
+
+  getAuthenticatedUser() {
+    this.subs.sink = this.authService.authenticatedUser$.subscribe((resp) => {
+      this.currentUser = resp;
+    });
+  }
+
+  setUserAsArtist() {
+    if (this.currentUser?.userType === 'user') {
+      this.subs.sink = this.artistsService
+        .editUserOrArtist(this.currentUser?.id, { userType: 'artist' })
+        .subscribe((resp) => {
+          console.log(resp);
+          this.authService.authenticatedUser$.next(resp);
+        });
+    }
   }
 
   displayGenreName(id) {
