@@ -11,7 +11,7 @@ import { setContext } from '@apollo/client/link/context';
 import { HttpClientModule } from '@angular/common/http';
 import { createUploadLink } from 'apollo-upload-client';
 
-const uri = environment.apiUrl; // <-- add the URL of the GraphQL server here
+const uri = 'http://localhost:3000/api/graphql'; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   const basic = setContext((operation, context) => ({
     headers: {
@@ -20,7 +20,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   }));
 
   const auth = setContext((operation, context) => {
-    const token = localStorage.getItem(environment.tokenKey);
+    const token = 'sessionToken';
 
     if (token === null) {
       return {};
