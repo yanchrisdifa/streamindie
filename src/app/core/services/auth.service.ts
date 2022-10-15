@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { find, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, find, map, Observable, of, tap } from 'rxjs';
 import { artist } from '../models/artists.model';
 import artistsData from '../../../assets/datas/artists.json';
 import { Apollo, gql } from 'apollo-angular';
@@ -11,6 +11,8 @@ import { GenresService } from './genres.service';
   providedIn: 'root',
 })
 export class AuthService {
+  authenticatedUser$: BehaviorSubject<any> = new BehaviorSubject(null);
+
   constructor(
     private apollo: Apollo,
     private router: Router,

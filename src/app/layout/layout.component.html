@@ -109,8 +109,10 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <ng-scrollbar thumbClass="custom-thumb-scrollbar">
-      <router-outlet></router-outlet>
+    <ng-scrollbar thumbClass="custom-thumb-scrollbar" #scrollContainer>
+      <router-outlet
+        (activate)="onActivate($event, scrollContainer)"
+      ></router-outlet>
       <div
         class="footer-container w-full bg-second-color text-white grid m-0 p-6"
         style="box-sizing: border-box !important"

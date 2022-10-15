@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { BehaviorSubject, forkJoin, map, of } from 'rxjs';
@@ -54,14 +55,14 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
     private songsService: SongsService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private genresService: GenresService
+    private genresService: GenresService,
+    private _snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.getAuthenticatedUser();
     this.getCurrentPlayingSong();
     this.getAllGenres();
-    this.cdr.detectChanges();
   }
 
   ngAfterViewInit(): void {
@@ -69,32 +70,29 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getAuthenticatedUser() {
-    this.isLoading = true;
-    this.subs.sink = this.authService.getAuthenticatedUser().subscribe(
-      (resp) => {
-        this.isLoading = false;
-        this.currentUserId = resp?.id;
-        this.getSongsData();
-      },
-      (err) => {
-        this.isLoading = false;
-      }
-    );
+    this.subs.sink = this.authService.authenticatedUser$.subscribe((resp) => {
+      this.currentUserId = resp?.id;
+      console.log(this.currentUserId);
+      this.getSongsData();
+    });
   }
 
   getSongsData() {
     this.artistId = this.artistId || this.currentUserId;
+    console.log(this.artistId);
     this.isLoading = true;
     this.dataSource.data = [];
-    this.subs.sink = this.songsService
-      .getAllSongs(`where:{artists:{id:{equals:"${this.artistId}"}}}`)
-      .subscribe((resp) => {
-        if (resp?.length) {
-          this.isDataExist = true;
+    if (this.artistId) {
+      this.subs.sink = this.songsService
+        .getAllSongs(`where:{artists:{id:{equals:"${this.artistId}"}}}`)
+        .subscribe((resp) => {
+          if (resp?.length) {
+            this.isDataExist = true;
+            this.dataSource.data = resp;
+          }
           this.isLoading = false;
-          this.dataSource.data = resp;
-        }
-      });
+        });
+    }
   }
 
   getSongCover(imageUrl: string) {
@@ -134,25 +132,31 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDialog(type, data?) {
-    this.dialog
-      .open(UserMusicDialogComponent, {
-        disableClose: true,
-        width: '600px',
-        autoFocus: false,
-        data: {
-          type: type,
-          data: data,
-          genresData: this.genresData,
-          currentArtistId: this.artistId || this.currentUserId,
-        },
-      })
-      .afterClosed()
-      .subscribe((resp) => {
-        console.log(resp);
-        if (resp?.isSaved) {
-          this.getSongsData();
-        }
+    if (this.artistId) {
+      this.dialog
+        .open(UserMusicDialogComponent, {
+          disableClose: true,
+          width: '600px',
+          autoFocus: false,
+          data: {
+            type: type,
+            data: data,
+            genresData: this.genresData,
+            currentArtistId: this.artistId || this.currentUserId,
+          },
+        })
+        .afterClosed()
+        .subscribe((resp) => {
+          console.log(resp);
+          if (resp?.isSaved) {
+            this.getSongsData();
+          }
+        });
+    } else {
+      this._snackbar.open('Please sign in or sign up first', 'Ok', {
+        duration: 3000,
       });
+    }
   }
 
   ngOnDestroy(): void {

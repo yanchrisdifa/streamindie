@@ -1,6 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgScrollbar } from 'ngx-scrollbar';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SongsService } from 'src/app/core/services/songs.service';
 import { MenuItems } from 'src/app/menu-items';
@@ -14,7 +21,8 @@ import { AuthService } from '../core/services/auth.service';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit {
+  @ViewChild('scrollContainer') scrollContainer: NgScrollbar;
   userData: any;
   menuList: Menu[];
   isLoading: boolean = false;
@@ -54,8 +62,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.subs.sink = this.authService.getAuthenticatedUser().subscribe(
       (resp) => {
+        console.log(resp);
         this.userData = resp;
         this.isLoading = false;
+        this.authService.authenticatedUser$.next(resp);
       },
       (err) => {
         this.isLoading = false;
@@ -68,6 +78,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       ? `url(${this.userData.profile_picture.url})`
       : 'url(../../assets/images/default-user-profile.png)';
   }
+
+  onActivate(e, scrollContainer) {}
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
