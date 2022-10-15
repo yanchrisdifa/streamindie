@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -23,6 +24,7 @@ import { AuthService } from '../core/services/auth.service';
 })
 export class LayoutComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer: NgScrollbar;
+  @ViewChild('sidenav') sidenav: MatSidenav;
   userData: any;
   menuList: Menu[];
   isLoading: boolean = false;
@@ -78,6 +80,7 @@ export class LayoutComponent implements OnInit {
 
   onActivate() {
     this.scrollContainer.scrollTo({ top: 0, duration: 0 });
+    this.sidenav.close();
   }
 
   ngOnDestroy(): void {
