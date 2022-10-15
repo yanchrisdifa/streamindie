@@ -11,9 +11,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.userData);
-  }
+  ngOnInit(): void {}
 
   getUserProfilePicture() {
     return this.userData?.profile_picture?.url

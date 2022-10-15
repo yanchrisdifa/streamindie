@@ -45,9 +45,7 @@ export class LayoutComponent implements OnInit {
 
   logOut() {
     this.authService.logOut();
-    this.subs.sink = this.authService.endSession().subscribe((resp) => {
-      console.log(resp);
-    });
+    this.subs.sink = this.authService.endSession().subscribe((resp) => {});
   }
 
   subsFormControl() {
@@ -62,7 +60,6 @@ export class LayoutComponent implements OnInit {
     this.isLoading = true;
     this.subs.sink = this.authService.getAuthenticatedUser().subscribe(
       (resp) => {
-        console.log(resp);
         this.userData = resp;
         this.isLoading = false;
         this.authService.authenticatedUser$.next(resp);

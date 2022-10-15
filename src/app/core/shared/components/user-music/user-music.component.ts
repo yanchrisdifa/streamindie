@@ -76,14 +76,12 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.sink = this.authService.authenticatedUser$.subscribe((resp) => {
       this.currentUserId = resp?.id;
       this.currentUser = resp;
-      console.log(this.currentUserId);
       this.getSongsData();
     });
   }
 
   getSongsData() {
     this.artistId = this.artistId || this.currentUserId;
-    console.log(this.artistId);
     this.isLoading = true;
     this.dataSource.data = [];
     if (this.artistId) {
@@ -110,7 +108,6 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
       this.subs.sink = this.artistsService
         .editUserOrArtist(this.currentUser?.id, { userType: 'user' })
         .subscribe((resp) => {
-          console.log(resp);
           this.authService.authenticatedUser$.next(resp);
         });
     }
@@ -168,7 +165,6 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         .afterClosed()
         .subscribe((resp) => {
-          console.log(resp);
           if (resp?.isSaved) {
             this.getSongsData();
           }

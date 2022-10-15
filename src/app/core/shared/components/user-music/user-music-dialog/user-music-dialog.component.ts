@@ -85,7 +85,6 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
     this.subsFormValueChanges();
     this.handleDisableButton();
-    console.log(this.data?.type);
     if (this.data?.type === 'delete') {
       this.dialogForm.disable();
     }
@@ -268,7 +267,6 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       };
     }
     if (this.data?.type === 'add') {
-      console.log(this.data?.currentArtistId);
       payload.artists = {
         connect: {
           id: this.data?.currentArtistId,
@@ -307,7 +305,6 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
       this.subs.sink = this.artistsService
         .editUserOrArtist(this.currentUser?.id, { userType: 'artist' })
         .subscribe((resp) => {
-          console.log(resp);
           this.authService.authenticatedUser$.next(resp);
         });
     }
