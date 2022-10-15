@@ -76,7 +76,9 @@ export class LayoutComponent implements OnInit {
       : 'url(../../assets/images/default-user-profile.png)';
   }
 
-  onActivate(e, scrollContainer) {}
+  onActivate() {
+    this.scrollContainer.scrollTo({ top: 0, duration: 0 });
+  }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

@@ -69,6 +69,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initForm();
     this.getAuthenticatedUser();
+    this.filteredGenresData = this.data?.genresData;
   }
 
   initForm() {
