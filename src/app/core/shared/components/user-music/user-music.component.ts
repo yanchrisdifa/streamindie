@@ -97,6 +97,9 @@ export class UserMusicComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.isLoading = false;
         });
+    } else {
+      this.isLoading = false;
+      this.isDataExist = false;
     }
   }
 
