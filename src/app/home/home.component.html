@@ -30,7 +30,7 @@
                 <img
                   [src]="data?.image"
                   alt=""
-                  style="max-width: 600px; max-height: 500px"
+                  style="max-width: 600px; max-height: 500px; object-fit: cover"
                 />
               </div>
               <div
@@ -100,7 +100,11 @@
               <div class="image-container">
                 <img
                   [src]="artist?.image?.url"
-                  style="width: 100% !important; height: 100% !important"
+                  style="
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover;
+                  "
                 />
               </div>
               <div
@@ -204,7 +208,11 @@
               >
                 <img
                   [src]="genre?.image?.url"
-                  style="width: 100% !important; height: 100% !important"
+                  style="
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover;
+                  "
                 />
                 <div
                   class="overlay-container flex justify-content-end"
@@ -295,7 +303,11 @@
               >
                 <img
                   [src]="song?.image?.url"
-                  style="width: 100% !important; height: 100% !important"
+                  style="
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: cover;
+                  "
                 />
                 <div
                   class="overlay-container flex justify-content-end"

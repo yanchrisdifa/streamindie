@@ -56,6 +56,7 @@
                     : '../../assets/images/default-user-profile.png'
                 "
                 alt=""
+                style="object-fit: cover"
                 class="w-full h-full"
               />
             </div>
@@ -128,7 +129,7 @@
             style="height: 80px !important"
           >
             <div
-              class="image-container h-full m-0"
+              class="image-container h-full m-0;"
               style="width: 80px !important; position: relative"
             >
               <div
@@ -157,7 +158,12 @@
                   >
                 </button>
               </div>
-              <img [src]="song?.image?.url" alt="" class="w-full h-full" />
+              <img
+                [src]="song?.image?.url"
+                style="object-fit: cover"
+                alt=""
+                class="w-full h-full"
+              />
             </div>
             <div
               class="text-container flex flex-column m-0 p-0 justify-content-center"
@@ -233,6 +239,7 @@
                     : '../../assets/images/default-user-profile.png'
                 "
                 alt=""
+                style="object-fit: cover"
                 class="w-full h-full"
               />
             </div>
@@ -288,13 +295,10 @@
       [ngStyle]="{
         'margin-top':
           !usersResult?.length &&
+          songsResult?.length &&
           artistsContainer?.offsetHeight < songsContainer?.offsetHeight
             ? artistsContainer.offsetHeight -
               songsContainer?.offsetHeight +
-              'px'
-            : artistsContainer?.offsetHeight > songsContainer?.offsetHeight
-            ? songsContainer.offsetHeight -
-              artistsContainer?.offsetHeight +
               'px'
             : 0,
         display: genresResult?.length ? 'block' : 'none'

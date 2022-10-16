@@ -34,78 +34,92 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.subscribe((param) => {
       this.searchTxt = param.get('searchText').trim().toLowerCase();
-      this.getArtistsBySearch(this.searchTxt);
-      this.getSongsBySearch(this.searchTxt);
-      this.getGenresBySearch(this.searchTxt);
+      this.getArtistsBySearch(this.searchTxt, 'init');
+      this.getSongsBySearch(this.searchTxt, 'init');
+      this.getGenresBySearch(this.searchTxt, 'init');
     });
     this.getCurrentPlayingSong();
   }
 
-  getArtistsBySearch(searchTxt) {
+  getArtistsBySearch(searchTxt, type: string) {
     this.artistsResult = [];
     this.usersResult = [];
+    let payload: string;
+    if (type === 'init') {
+      payload = `where: {name:{contains: "${searchTxt}"},userType: {in: [artist, user]} }`;
+    } else if (type === 'song') {
+      payload = `where: {songs: {some: {title: {contains: "${searchTxt}"}}}, userType: {in: [artist, user]}}`;
+    } else if (type === 'genre') {
+      payload = `where: {songs: {some: {genre: {name: {contains: "${searchTxt}"}}}}, userType: {in: [artist, user]}}`;
+    }
     this.subs.sink = this.artistsService
-      .getAllArtists(
-        `where: {name:{contains: "${searchTxt}"},userType: {in: [artist, user]} }`
-      )
+      .getAllArtists(payload)
       .subscribe((resp: any) => {
         if (resp?.length) {
-          this.separateArtistAndUser(resp);
+          resp.forEach((data) => {
+            if (data?.userType === 'artist') {
+              this.artistsResult.push(data);
+            } else if (data?.userType === 'user') {
+              this.usersResult.push(data);
+            }
+          });
         } else {
-          this.getArtistsBySong(searchTxt);
+          if (type === 'init') {
+            this.getArtistsBySearch(searchTxt, 'song');
+          } else if (type === 'song') {
+            this.getArtistsBySearch(searchTxt, 'genre');
+          }
         }
       });
   }
 
-  getArtistsBySong(searchTxt) {
-    this.subs.sink = this.artistsService
-      .getAllArtists(
-        `where: {songs: {some: {title: {contains: "${searchTxt}"}}}, userType: {in: [artist, user]}}`
-      )
-      .subscribe((resp) => {
-        if (resp?.length) {
-          this.separateArtistAndUser(resp);
-        } else {
-          this.getArtistByGenre(searchTxt);
-        }
-      });
-  }
-
-  getArtistByGenre(searchTxt) {
-    this.subs.sink = this.artistsService
-      .getAllArtists(
-        `where: {songs: {some: {genre: {name: {contains: "${searchTxt}"}}}}, userType: {in: [artist, user]}}`
-      )
-      .subscribe((resp) => {
-        if (resp?.length) {
-          this.separateArtistAndUser(resp);
-        }
-      });
-  }
-
-  separateArtistAndUser(resp) {
-    resp.forEach((data) => {
-      if (data?.userType === 'artist') {
-        this.artistsResult.push(data);
-      } else if (data?.userType === 'user') {
-        this.usersResult.push(data);
-      }
-    });
-  }
-
-  getSongsBySearch(searchTxt) {
+  getSongsBySearch(searchTxt, type: string) {
+    this.songsResult = [];
+    let payload: string;
+    if (type === 'init') {
+      payload = `where: {title: {contains: "${searchTxt}"}}`;
+    } else if (type === 'artist') {
+      payload = `where: {artists: {name: {contains: "${searchTxt}"}}}`;
+    } else if (type === 'genre') {
+      payload = `where: {genre: {name: {contains: "${searchTxt}"}}}`;
+    }
     this.subs.sink = this.songsService
-      .getAllSongs(`where: {title: {contains: "${searchTxt}"}}`)
+      .getAllSongs(payload)
       .subscribe((resp) => {
-        this.songsResult = resp;
+        if (resp?.length) {
+          this.songsResult = resp;
+        } else {
+          if (type === 'init') {
+            this.getSongsBySearch(searchTxt, 'artist');
+          } else if (type === 'artist') {
+            this.getSongsBySearch(searchTxt, 'genre');
+          }
+        }
       });
   }
 
-  getGenresBySearch(searchTxt) {
+  getGenresBySearch(searchTxt, type: string) {
+    this.genresResult = [];
+    let payload: string;
+    if (type === 'init') {
+      payload = `where: {name: {contains: "${searchTxt}"}}`;
+    } else if (type === 'artist') {
+      payload = `where: {artists: {some: {name: {contains: "${searchTxt}"}}}}`;
+    } else if (type === 'song') {
+      payload = `where: {songs: {some: {title: {contains: "${searchTxt}"}}}}`;
+    }
     this.subs.sink = this.genresService
-      .getAllGenres(`where: {name: {contains: "${searchTxt}"}}`)
+      .getAllGenres(payload)
       .subscribe((resp) => {
-        this.genresResult = resp;
+        if (resp?.length) {
+          this.genresResult = resp;
+        } else {
+          if (type === 'init') {
+            this.getGenresBySearch(searchTxt, 'artist');
+          } else if (type === 'artist') {
+            this.getGenresBySearch(searchTxt, 'song');
+          }
+        }
       });
   }
 
