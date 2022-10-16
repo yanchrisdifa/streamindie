@@ -79,8 +79,10 @@ export class LayoutComponent implements OnInit {
   }
 
   onActivate() {
-    this.scrollContainer.scrollTo({ top: 0, duration: 0 });
-    this.sidenav.close();
+    if (this.scrollContainer && this.sidenav) {
+      this.scrollContainer.scrollTo({ top: 0, duration: 0 });
+      this.sidenav.close();
+    }
   }
 
   ngOnDestroy(): void {

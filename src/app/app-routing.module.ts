@@ -18,11 +18,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./my-music/my-music.module').then((m) => m.MyMusicModule),
       },
-      {
-        path: 'library',
-        loadChildren: () =>
-          import('./library/library.module').then((m) => m.LibraryModule),
-      },
+      // {
+      //   path: 'library',
+      //   loadChildren: () =>
+      //     import('./library/library.module').then((m) => m.LibraryModule),
+      // },
       {
         path: 'details',
         loadChildren: () =>

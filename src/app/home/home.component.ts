@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
     {
-      image: '../../assets/images/banner-1.jpg',
+      image: '../../assets/images/banner-2.jpg',
       title: 'Explore some musics, and get a better taste of music!',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim saepe voluptates, obcaecati nesciunt quaerat, placeat voluptatibus dolor reiciendis possimus magni nisi mollitia quos temporibus laborum vero omnis, alias dolores quidem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolorum consequuntur neque ea quae illo fuga magni fugiat architecto sunt libero quis optio in minus, tenetur temporibus error voluptates debitis.',
     },
@@ -94,7 +94,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getAllNewSongs() {
     this.subs.sink = this.songsService
-      .getAllSongs('take: 10')
+      .getAllSongs('take: 10, orderBy: {postedAt: desc}')
       .subscribe((datas) => {
         this.songsData = datas;
       });
@@ -107,9 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setCurrentPlayingSong(songData: any): void {
-    if (this.currentPlayingGenre) {
-      this.genresService.setCurrentPlayingGenre(this.currentPlayingGenre);
-    }
+    this.genresService.setCurrentPlayingGenre(null);
     this.songsService.setCurrentPlayingSong(songData);
   }
 
@@ -127,8 +125,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (tempSong?.length) {
         const max = tempSong.length - 1;
         const randomIndex = Math.round(Math.random() * (max - 0) - 0);
-        this.genresService.setCurrentPlayingGenre(genreData);
-        this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
+        if (this.currentPlayingSong?.id !== tempSong[randomIndex]?.id) {
+          this.genresService.setCurrentPlayingGenre(genreData);
+          this.songsService.setCurrentPlayingSong(tempSong[randomIndex]);
+        } else {
+          this.setCurrentPlayingSongByGenre(genreData);
+        }
       }
     }
   }
