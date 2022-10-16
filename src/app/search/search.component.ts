@@ -49,15 +49,48 @@ export class SearchComponent implements OnInit, OnDestroy {
         `where: {name:{contains: "${searchTxt}"},userType: {in: [artist, user]} }`
       )
       .subscribe((resp: any) => {
-        const tempResp = resp;
-        tempResp.forEach((data) => {
-          if (data?.userType === 'artist') {
-            this.artistsResult.push(data);
-          } else if (data?.userType === 'user') {
-            this.usersResult.push(data);
-          }
-        });
+        if (resp?.length) {
+          this.separateArtistAndUser(resp);
+        } else {
+          this.getArtistsBySong(searchTxt);
+        }
       });
+  }
+
+  getArtistsBySong(searchTxt) {
+    this.subs.sink = this.artistsService
+      .getAllArtists(
+        `where: {songs: {some: {title: {contains: "${searchTxt}"}}}, userType: {in: [artist, user]}}`
+      )
+      .subscribe((resp) => {
+        if (resp?.length) {
+          this.separateArtistAndUser(resp);
+        } else {
+          this.getArtistByGenre(searchTxt);
+        }
+      });
+  }
+
+  getArtistByGenre(searchTxt) {
+    this.subs.sink = this.artistsService
+      .getAllArtists(
+        `where: {songs: {some: {genre: {name: {contains: "${searchTxt}"}}}}, userType: {in: [artist, user]}}`
+      )
+      .subscribe((resp) => {
+        if (resp?.length) {
+          this.separateArtistAndUser(resp);
+        }
+      });
+  }
+
+  separateArtistAndUser(resp) {
+    resp.forEach((data) => {
+      if (data?.userType === 'artist') {
+        this.artistsResult.push(data);
+      } else if (data?.userType === 'user') {
+        this.usersResult.push(data);
+      }
+    });
   }
 
   getSongsBySearch(searchTxt) {
