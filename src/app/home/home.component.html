@@ -126,7 +126,7 @@
                 </div>
                 <div class="actions-container">
                   <!-- Star button -->
-                  <button
+                  <!-- <button
                     *ngIf="isArtistsStared[i]"
                     mat-icon-button
                     (click)="starOrUnstarArtist(i)"
@@ -141,10 +141,10 @@
                     <mat-icon style="transform: scale(1.2)"
                       >star_border</mat-icon
                     >
-                  </button>
+                  </button> -->
 
                   <!-- Bookmark button -->
-                  <button
+                  <!-- <button
                     *ngIf="isArtistsSaved[i]"
                     mat-icon-button
                     (click)="saveOrUnsaveArtist(i)"
@@ -159,7 +159,7 @@
                     <mat-icon style="transform: scale(1.2)"
                       >bookmark_border</mat-icon
                     >
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -187,7 +187,6 @@
         #swiper
         [slidesPerView]="5"
         [spaceBetween]="20"
-        [loop]="true"
         [pagination]="{ clickable: true }"
         style="overflow: visible !important"
       >
