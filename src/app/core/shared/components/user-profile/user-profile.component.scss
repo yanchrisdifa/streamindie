@@ -1,0 +1,29 @@
+.profile-pict-overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+    transition: .3s;
+    opacity: 0;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.text-container {
+    ::ng-deep {
+        .mat-form-field-appearance-legacy .mat-form-field-infix {
+            padding: 0.5rem 0 !important;
+        }
+    }
+}
+
+.email {
+    ::ng-deep {
+        .mat-form-field-wrapper {
+            padding-left: 1rem !important;
+        }
+    }
+}

@@ -1,54 +1,178 @@
-<div class="banner-container w-full">
+<div class="banner-container w-full flex justify-content-between">
   <div class="banner-content w-full flex p-0 m-0 align-items-center gap-6">
     <div
       class="profile-picture-container"
       style="
         width: 200px;
         height: 200px;
-        border-radius: 50%;
+        position: relative;
         background-size: cover;
+        overflow: hidden;
+        border-radius: 50%;
       "
-      [ngStyle]="{ 'background-image': getUserProfilePicture() }"
-    ></div>
-    <div class="text-container">
-      <h1
-        class="text-white m-0 p-0"
-        style="font-size: 2.3rem; letter-spacing: 3px"
+    >
+      <ng-container
+        *ngIf="userData?.id === currentUser?.id && isEditModeOpened"
       >
-        {{ userData?.name }}
-      </h1>
-      <h3
-        class="p-0"
-        style="
-          font-size: 1.3rem;
-          letter-spacing: 1px;
-          color: #555;
-          margin: 15px 0 15px 0;
+        <div
+          class="profile-pict-overlay-container flex justify-content-center align-items-center"
+        >
+          <mat-icon
+            style="color: #fff; transform: scale(1.5); cursor: pointer"
+            matTooltip="200 x 200"
+            (click)="profilePictureFileInput.click()"
+          >
+            insert_photo</mat-icon
+          >
+        </div>
+        <input
+          type="file"
+          style="display: none !important"
+          accept="image/jpg, image/png, image/jpeg"
+          #profilePictureFileInput
+          (change)="loadProfilePicturePreview($event.target)"
+        />
+      </ng-container>
+      <img
+        [src]="
+          userData?.profile_picture?.url ||
+          '../../assets/images/default-user-profile.png'
         "
-      >
-        {{ userData?.email }}
-      </h3>
-      <div
-        class="user-type-container"
-        style="
-          padding: 5px 20px;
-          border-radius: 20px;
-          width: fit-content;
-          background-color: #555;
-        "
-      >
-        <p
-          class="m-0 p-0 text-first-color"
+        alt=""
+        class="w-full h-full"
+        style="object-fit: cover"
+        #userProfilePicture
+      />
+    </div>
+    <div class="text-container flex flex-column">
+      <ng-container *ngIf="!isEditModeOpened">
+        <h1
+          class="text-white m-0 p-0"
+          style="font-size: 2.3rem; letter-spacing: 3px"
+        >
+          {{ userData?.name }}
+        </h1>
+        <h3
+          class="p-0"
           style="
-            font-size: 1rem;
+            font-size: 1.3rem;
             letter-spacing: 1px;
-            width: fit-content;
-            font-weight: 500;
+            color: #555;
+            margin: 15px 0 15px 0;
           "
         >
-          {{ userData?.userType | titlecase }}
-        </p>
-      </div>
+          {{ userData?.email }}
+        </h3>
+        <div
+          class="user-type-container"
+          style="
+            padding: 5px 20px;
+            border-radius: 20px;
+            width: fit-content;
+            background-color: #555;
+          "
+        >
+          <p
+            class="m-0 p-0 text-first-color"
+            style="
+              font-size: 1rem;
+              letter-spacing: 1px;
+              width: fit-content;
+              font-weight: 500;
+            "
+          >
+            {{ userData?.userType | titlecase }}
+          </p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="isEditModeOpened">
+        <div
+          class="grid m-0 p-0"
+          style="width: 750px !important"
+          [formGroup]="userForm"
+        >
+          <mat-form-field
+            class="col-6 m-0 p-0"
+            floatLabel="never"
+            style="box-sizing: border-box !important"
+          >
+            <input
+              type="text"
+              matInput
+              placeholder="Edit username"
+              class="text-white"
+              formControlName="name"
+            />
+          </mat-form-field>
+          <mat-form-field
+            class="col-6 m-0 p-0 email"
+            style="box-sizing: border-box !important"
+            floatLabel="never"
+          >
+            <input
+              type="email"
+              matInput
+              placeholder="Edit email"
+              class="text-white"
+              formControlName="email"
+            />
+          </mat-form-field>
+          <mat-form-field
+            class="col-6 m-0 p-0"
+            style="box-sizing: border-box !important"
+            floatLabel="never"
+          >
+            <input
+              type="password"
+              matInput
+              placeholder="Edit password"
+              class="text-white"
+              formControlName="password"
+              #password
+            />
+            <mat-icon
+              matSuffix
+              class="text-white"
+              *ngIf="!showPassword"
+              (click)="showPassword = true; password.type = 'text'"
+              style="cursor: pointer"
+              >visibility</mat-icon
+            >
+            <mat-icon
+              matSuffix
+              class="text-white"
+              *ngIf="showPassword"
+              (click)="showPassword = false; password.type = 'password'"
+              style="cursor: pointer"
+              >visibility_off</mat-icon
+            >
+          </mat-form-field>
+        </div>
+        <button
+          mat-flat-button
+          style="
+            background-color: #33f58e !important;
+            width: fit-content !important;
+          "
+          (click)="save()"
+        >
+          Save
+        </button>
+      </ng-container>
     </div>
+  </div>
+  <div class="action-container" *ngIf="userData?.id === currentUser?.id">
+    <button mat-icon-button (click)="toggleEditMode()">
+      <mat-icon
+        style="color: #fff !important; transform: scale(1.2)"
+        *ngIf="!isEditModeOpened"
+        >edit</mat-icon
+      >
+      <mat-icon
+        style="color: #fff !important; transform: scale(1.2)"
+        *ngIf="isEditModeOpened"
+        >visibility</mat-icon
+      >
+    </button>
   </div>
 </div>

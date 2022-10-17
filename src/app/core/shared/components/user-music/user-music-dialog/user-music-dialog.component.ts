@@ -85,7 +85,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     });
     this.dialogFormOldVal = _.cloneDeep(this.dialogForm.value);
     this.subsFormValueChanges();
-    this.handleDisableButton();
+    this.setIsDataUpdated();
     if (this.data?.type === 'delete') {
       this.dialogForm.disable();
     }
@@ -176,11 +176,12 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
     this.updatedSongAudio = target?.files[0];
   }
 
-  handleDisableButton() {
+  setIsDataUpdated() {
     this.subs.sink = this.dialogForm.valueChanges
       .pipe(distinctUntilChanged())
       .subscribe((data) => {
-        this.isDataUpdated = this.updatedVal?.length ? true : false;
+        this.isDataUpdated =
+          this.updatedVal?.length || this.updatedSongCover ? true : false;
       });
   }
 

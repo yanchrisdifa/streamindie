@@ -82,9 +82,9 @@
             </p>
           </div>
           <div style="height: 1px; width: 100%; background-color: #ccc"></div>
-          <button mat-menu-item>Your Profile</button>
-          <button mat-menu-item>Your Account</button>
-          <button mat-menu-item>Settings</button>
+          <button mat-menu-item [routerLink]="'/app/details/' + userData?.id">
+            Your Profile
+          </button>
           <div style="height: 1px; width: 100%; background-color: #ccc"></div>
           <button mat-menu-item (click)="logOut()">Sign Out</button>
         </mat-menu>
