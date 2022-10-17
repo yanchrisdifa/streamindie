@@ -117,7 +117,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
             return genre?.id === resp;
           });
           resp = this.displayGenreName(resp);
-          if (tempGenre?.id !== this.dialogFormOldVal.genre) {
+          if (tempGenre?.id !== this.dialogFormOldVal?.genre) {
             this.updatedVal.push('genre');
           } else {
             const index = this.updatedVal.findIndex(
@@ -178,7 +178,7 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
 
   setIsDataUpdated() {
     this.subs.sink = this.dialogForm.valueChanges
-      .pipe(distinctUntilChanged())
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((data) => {
         this.isDataUpdated =
           this.updatedVal?.length || this.updatedSongCover ? true : false;
@@ -191,7 +191,11 @@ export class UserMusicDialogComponent implements OnInit, OnDestroy {
         duration: 3000,
       });
       return;
-    } else if (this.dialogForm.valid && !this.isGenreOptionClicked) {
+    } else if (
+      this.dialogForm.valid &&
+      !this.isGenreOptionClicked &&
+      this.dialogForm.get('genre').value !== this.dialogFormOldVal?.genre
+    ) {
       this._snackBar.open(
         'Please select your song genre from the dropdown',
         'Ok',
